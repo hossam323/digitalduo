@@ -16,6 +16,8 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 <div class="cursor-dot" id="cursorDot" aria-hidden="true">
   <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
 </div>
@@ -48,12 +50,26 @@
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HERO — split-screen "duo" divider -->
+  <section class="hero" id="heroSplit">
     <div class="hero-bg" aria-hidden="true">
       <div class="dot-field"></div>
       <div class="glow-orb" id="glowOrb"></div>
     </div>
+
+    <div class="hero-duo-split" aria-hidden="true">
+      <div class="duo-side duo-side--strategy">
+        <span class="duo-side-label">Strategy</span>
+      </div>
+      <div class="duo-side duo-side--creative">
+        <span class="duo-side-label">Creative</span>
+      </div>
+      <div class="duo-divider" id="duoDivider">
+        <span class="duo-dot duo-dot--a"></span>
+        <span class="duo-dot duo-dot--b"></span>
+      </div>
+    </div>
+
     <div class="wrap hero-inner">
       <p class="eyebrow reveal">Full-Service Digital Agency · Dubai, UAE</p>
       <h1 class="hero-title" id="heroTitle">
@@ -70,23 +86,30 @@
     <div class="hero-duo" aria-hidden="true">
       <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
     </div>
+    <p class="hero-scroll-hint reveal">Move your cursor — every DigitalDuo brand starts as two halves of one idea</p>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee">
-    <div class="marquee-track">
+  <!-- MARQUEE — two rows, counter-scrolling (the "duo") -->
+  <div class="marquee marquee--duo">
+    <div class="marquee-track marquee-track--a">
       <span>YOUR PARTNER IN GROWTH</span><span class="dot-sep">••</span>
       <span>AI &amp; UGC CONTENT</span><span class="dot-sep">••</span>
-      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
       <span>BRANDING &amp; IDENTITY</span><span class="dot-sep">••</span>
-      <span>PERFORMANCE &amp; PAID MEDIA</span><span class="dot-sep">••</span>
       <span>WEB DEVELOPMENT</span><span class="dot-sep">••</span>
       <span>YOUR PARTNER IN GROWTH</span><span class="dot-sep">••</span>
       <span>AI &amp; UGC CONTENT</span><span class="dot-sep">••</span>
-      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
       <span>BRANDING &amp; IDENTITY</span><span class="dot-sep">••</span>
-      <span>PERFORMANCE &amp; PAID MEDIA</span><span class="dot-sep">••</span>
       <span>WEB DEVELOPMENT</span><span class="dot-sep">••</span>
+    </div>
+    <div class="marquee-track marquee-track--b">
+      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+      <span>PERFORMANCE &amp; PAID MEDIA</span><span class="dot-sep">••</span>
+      <span>TEN BRANDS, TEN INDUSTRIES</span><span class="dot-sep">••</span>
+      <span>STRATEGY FIRST, CONTENT SECOND</span><span class="dot-sep">••</span>
+      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+      <span>PERFORMANCE &amp; PAID MEDIA</span><span class="dot-sep">••</span>
+      <span>TEN BRANDS, TEN INDUSTRIES</span><span class="dot-sep">••</span>
+      <span>STRATEGY FIRST, CONTENT SECOND</span><span class="dot-sep">••</span>
     </div>
   </div>
 
@@ -173,10 +196,13 @@
     </div>
   </section>
 
-  <!-- MISSION PULL-QUOTE -->
-  <section class="quote-block">
+  <!-- MISSION PULL-QUOTE — scroll-inked -->
+  <section class="quote-block" id="quoteBlock">
     <div class="wrap">
-      <p class="quote-text reveal">Strategy first.<br>Content second.<br><span class="text-red">Always.</span></p>
+      <p class="quote-text">
+        <span class="ink" id="inkText">Strategy first.<br>Content second.</span><br>
+        <span class="text-red quote-always">Always.</span>
+      </p>
       <p class="quote-sub reveal">Every deliverable starts with who it's for and what we want them to do — before anyone opens a design tool.</p>
     </div>
   </section>
@@ -187,9 +213,14 @@
       <p class="eyebrow reveal">Selected work</p>
       <h2 class="section-title reveal">Ten brands.<br>Ten industries.</h2>
       <p class="portfolio-note reveal">The identities below are self-initiated concept work — built to demonstrate strategic range across sectors, not client engagements. Every mark starts from a real tension in its category; every site and content sample shown is a mockup built to demonstrate the idea in use.</p>
+      <p class="portfolio-hint reveal"><span class="service-dots" aria-hidden="true"><i></i><i></i></span> Every mark ships in duotone — hover (or tap) to bring it into full color</p>
 
-      <div class="portfolio-grid">
+      <div class="portfolio-scroll-wrap">
+      <button class="portfolio-nav portfolio-nav--prev" id="portPrev" aria-label="Previous">‹</button>
+      <button class="portfolio-nav portfolio-nav--next" id="portNext" aria-label="Next">›</button>
+      <div class="portfolio-grid" id="portfolioTrack">
         <article class="portfolio-card reveal" style="--accent:#c9a227;--bg:#0a0a0a;">
+          <span class="portfolio-index">01</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/vanta.png" alt="Vanta Capital logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Investment Advisory</span>
@@ -198,6 +229,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#c1573d;--bg:#eae1d2;">
+          <span class="portfolio-index">02</span>
           <div class="portfolio-art light"><img src="assets/img/portfolio/marra.png" alt="Marra logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Specialty Coffee</span>
@@ -206,6 +238,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#3b82f6;--bg:#0a0d12;">
+          <span class="portfolio-index">03</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/signal.png" alt="Signal logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">B2B Cybersecurity</span>
@@ -214,6 +247,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#d4ff3d;--bg:#0a0a0a;">
+          <span class="portfolio-index">04</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/loop.png" alt="Loop logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Fashion Resale</span>
@@ -222,6 +256,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#7c9070;--bg:#e9ece4;">
+          <span class="portfolio-index">05</span>
           <div class="portfolio-art light"><img src="assets/img/portfolio/kin.png" alt="Kin logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Family Law</span>
@@ -230,6 +265,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#7fbf4d;--bg:#153826;">
+          <span class="portfolio-index">06</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/plot.png" alt="Plot logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Urban Farming</span>
@@ -238,6 +274,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#9db4d1;--bg:#0b1b2e;">
+          <span class="portfolio-index">07</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/halcyon.png" alt="Halcyon logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Sleep &amp; Recovery Clinic</span>
@@ -246,6 +283,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#c9a06b;--bg:#1c1512;">
+          <span class="portfolio-index">08</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/forge-field.png" alt="Forge & Field logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Heritage Leather Goods</span>
@@ -254,6 +292,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#f2793a;--bg:#0e1b2e;">
+          <span class="portfolio-index">09</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/orbit.png" alt="Orbit logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Youth Football Academy</span>
@@ -262,6 +301,7 @@
         </article>
 
         <article class="portfolio-card reveal" style="--accent:#c1603c;--bg:#1b1310;">
+          <span class="portfolio-index">10</span>
           <div class="portfolio-art"><img src="assets/img/portfolio/hearth.png" alt="Hearth logo" loading="lazy"></div>
           <div class="portfolio-meta">
             <span class="portfolio-industry">Modular Cookware</span>
@@ -269,6 +309,8 @@
           </div>
         </article>
       </div>
+      </div>
+      <p class="portfolio-scroll-cue reveal">Drag or scroll to browse all ten →</p>
     </div>
   </section>
 

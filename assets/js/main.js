@@ -1,6 +1,16 @@
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Scroll progress bar
+const scrollProgress = document.getElementById('scrollProgress');
+const onScrollProgress = () => {
+  const h = document.documentElement;
+  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  scrollProgress.style.transform = `scaleX(${scrolled})`;
+};
+document.addEventListener('scroll', onScrollProgress, { passive: true });
+onScrollProgress();
+
 // Header scroll state
 const header = document.getElementById('siteHeader');
 const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
@@ -20,27 +30,45 @@ mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   burger.classList.remove('open');
 }));
 
-// Hero glow orb follows pointer
+const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// Hero glow orb + duo split divider follow the pointer together
 const glowOrb = document.getElementById('glowOrb');
-if (glowOrb && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  const hero = document.querySelector('.hero');
-  hero.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
+const heroSplit = document.getElementById('heroSplit');
+const duoSplit = heroSplit ? heroSplit.querySelector('.hero-duo-split') : null;
+if (hasFinePointer && heroSplit) {
+  heroSplit.addEventListener('mousemove', (e) => {
+    const rect = heroSplit.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    glowOrb.style.setProperty('--gx', `${x}%`);
-    glowOrb.style.setProperty('--gy', `${y}%`);
+    if (glowOrb) {
+      glowOrb.style.setProperty('--gx', `${x}%`);
+      glowOrb.style.setProperty('--gy', `${y}%`);
+    }
+    if (duoSplit) {
+      const clamped = Math.min(82, Math.max(18, x));
+      duoSplit.style.setProperty('--split', `${clamped}%`);
+    }
   });
 }
 
-// Custom cursor
+// Custom cursor — eased "duo" trail rather than a 1:1 snap
 const cursor = document.getElementById('cursorDot');
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+if (hasFinePointer && cursor) {
+  let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+  let curX = targetX, curY = targetY;
   window.addEventListener('mousemove', (e) => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+    targetX = e.clientX; targetY = e.clientY;
     cursor.classList.add('active');
   });
-  document.querySelectorAll('a, button, .service-card').forEach(el => {
+  const tick = () => {
+    curX += (targetX - curX) * 0.22;
+    curY += (targetY - curY) * 0.22;
+    cursor.style.transform = `translate(${curX}px, ${curY}px) translate(-50%,-50%)`;
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+  document.querySelectorAll('a, button, .service-card, .portfolio-card').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
   });
@@ -81,6 +109,59 @@ const counterIO = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 counters.forEach(el => counterIO.observe(el));
+
+// Quote block — ink-fill tied to scroll position
+const quoteBlock = document.getElementById('quoteBlock');
+const inkText = document.getElementById('inkText');
+const quoteAlways = document.querySelector('.quote-always');
+if (quoteBlock && inkText) {
+  const updateInk = () => {
+    const rect = quoteBlock.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
+    inkText.style.setProperty('--fill', progress.toFixed(3));
+    if (progress > 0.85) quoteAlways.classList.add('in');
+  };
+  document.addEventListener('scroll', updateInk, { passive: true });
+  updateInk();
+}
+
+// Portfolio gallery — prev/next buttons + drag-to-scroll + tap-to-reveal duotone
+const portfolioTrack = document.getElementById('portfolioTrack');
+if (portfolioTrack) {
+  const cardWidth = () => portfolioTrack.querySelector('.portfolio-card')?.getBoundingClientRect().width + 24 || 320;
+  document.getElementById('portPrev')?.addEventListener('click', () => {
+    portfolioTrack.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
+  });
+  document.getElementById('portNext')?.addEventListener('click', () => {
+    portfolioTrack.scrollBy({ left: cardWidth(), behavior: 'smooth' });
+  });
+
+  let isDown = false, startX = 0, startScroll = 0, dragged = false;
+  portfolioTrack.addEventListener('pointerdown', (e) => {
+    isDown = true; dragged = false;
+    startX = e.clientX; startScroll = portfolioTrack.scrollLeft;
+    portfolioTrack.classList.add('dragging');
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (!isDown) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) dragged = true;
+    portfolioTrack.scrollLeft = startScroll - dx;
+  });
+  window.addEventListener('pointerup', () => {
+    isDown = false;
+    portfolioTrack.classList.remove('dragging');
+  });
+
+  // Touch devices: tap toggles the duotone reveal instead of relying on hover
+  portfolioTrack.querySelectorAll('.portfolio-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (dragged) { e.preventDefault(); return; }
+      if (!hasFinePointer) card.classList.toggle('revealed');
+    });
+  });
+}
 
 // Contact form (front-end only — wire to a backend or Formspree endpoint before launch)
 const form = document.getElementById('contactForm');
