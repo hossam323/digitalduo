@@ -20,6 +20,19 @@ mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   burger.classList.remove('open');
 }));
 
+// Hero glow orb follows pointer
+const glowOrb = document.getElementById('glowOrb');
+if (glowOrb && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const hero = document.querySelector('.hero');
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    glowOrb.style.setProperty('--gx', `${x}%`);
+    glowOrb.style.setProperty('--gy', `${y}%`);
+  });
+}
+
 // Custom cursor
 const cursor = document.getElementById('cursorDot');
 if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
