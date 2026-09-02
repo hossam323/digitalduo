@@ -117,12 +117,17 @@ counters.forEach(el => counterIO.observe(el));
 
 // Ink-scroll: every headline tagged .ink-scroll brightens as it crosses into view
 const inkEls = document.querySelectorAll('.ink-scroll');
+const quoteBlock = document.getElementById('quoteBlock');
 const quoteAlways = document.querySelector('.quote-always');
 if (inkEls.length) {
   const updateInk = () => {
     const vh = window.innerHeight;
     inkEls.forEach(el => {
-      const rect = el.getBoundingClientRect();
+      // The mission quote paces its fade off the whole section (including its
+      // large padding), exactly like the original version, so it builds up
+      // slowly; every other heading paces off its own (smaller) box.
+      const useEl = (el.id === 'inkText' && quoteBlock) ? quoteBlock : el;
+      const rect = useEl.getBoundingClientRect();
       const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
       el.style.setProperty('--fill', progress.toFixed(3));
       if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');

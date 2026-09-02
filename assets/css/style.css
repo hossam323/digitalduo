@@ -353,7 +353,7 @@ section{padding:120px 0;}
   --fill:0;
   background:linear-gradient(90deg,
     var(--white) 0%, var(--white) calc(var(--fill) * 100%),
-    rgba(255,255,255,.24) calc(var(--fill) * 100%), rgba(255,255,255,.24) 100%);
+    rgba(255,255,255,.16) calc(var(--fill) * 100%), rgba(255,255,255,.16) 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
 @supports not (background-clip:text){
