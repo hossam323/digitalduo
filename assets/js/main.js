@@ -32,24 +32,29 @@ mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 
 const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-// Hero glow orb + duo split divider follow the pointer together
+// Hero glow orb follows the pointer
 const glowOrb = document.getElementById('glowOrb');
 const heroSplit = document.getElementById('heroSplit');
-const duoSplit = heroSplit ? heroSplit.querySelector('.hero-duo-split') : null;
-if (hasFinePointer && heroSplit) {
+if (hasFinePointer && heroSplit && glowOrb) {
   heroSplit.addEventListener('mousemove', (e) => {
     const rect = heroSplit.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    if (glowOrb) {
-      glowOrb.style.setProperty('--gx', `${x}%`);
-      glowOrb.style.setProperty('--gy', `${y}%`);
-    }
-    if (duoSplit) {
-      const clamped = Math.min(82, Math.max(18, x));
-      duoSplit.style.setProperty('--split', `${clamped}%`);
-    }
+    glowOrb.style.setProperty('--gx', `${x}%`);
+    glowOrb.style.setProperty('--gy', `${y}%`);
   });
+}
+
+// Hero mark drifts with scroll (parallax), independent of its own float animation
+const heroDuo = document.getElementById('heroDuo');
+if (heroDuo) {
+  const onHeroParallax = () => {
+    const rect = heroSplit.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, -rect.top / (rect.height || 1)));
+    heroDuo.style.transform = `translateY(${progress * -70}px)`;
+  };
+  document.addEventListener('scroll', onHeroParallax, { passive: true });
+  onHeroParallax();
 }
 
 // Custom cursor — eased "duo" trail rather than a 1:1 snap
@@ -110,17 +115,18 @@ const counterIO = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 counters.forEach(el => counterIO.observe(el));
 
-// Quote block — ink-fill tied to scroll position
-const quoteBlock = document.getElementById('quoteBlock');
-const inkText = document.getElementById('inkText');
+// Ink-scroll: every headline tagged .ink-scroll brightens as it crosses into view
+const inkEls = document.querySelectorAll('.ink-scroll');
 const quoteAlways = document.querySelector('.quote-always');
-if (quoteBlock && inkText) {
+if (inkEls.length) {
   const updateInk = () => {
-    const rect = quoteBlock.getBoundingClientRect();
     const vh = window.innerHeight;
-    const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
-    inkText.style.setProperty('--fill', progress.toFixed(3));
-    if (progress > 0.85) quoteAlways.classList.add('in');
+    inkEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
+      el.style.setProperty('--fill', progress.toFixed(3));
+      if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');
+    });
   };
   document.addEventListener('scroll', updateInk, { passive: true });
   updateInk();
