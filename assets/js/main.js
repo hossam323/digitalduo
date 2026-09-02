@@ -117,6 +117,7 @@ counters.forEach(el => counterIO.observe(el));
 
 // Ink-scroll: every headline tagged .ink-scroll brightens as it crosses into view
 const inkEls = document.querySelectorAll('.ink-scroll');
+const quoteAlways = document.querySelector('.quote-always');
 if (inkEls.length) {
   const updateInk = () => {
     const vh = window.innerHeight;
@@ -124,6 +125,7 @@ if (inkEls.length) {
       const rect = el.getBoundingClientRect();
       const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
       el.style.setProperty('--fill', progress.toFixed(3));
+      if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');
     });
   };
   document.addEventListener('scroll', updateInk, { passive: true });
