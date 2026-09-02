@@ -231,9 +231,23 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-0.02em;}
 }
 .marquee--duo{ border-bottom:1px solid var(--black); }
 .marquee--duo .marquee-track--a{ border-bottom:1px solid rgba(1,0,0,.25); }
-@media (prefers-reduced-motion: reduce){
-  .marquee-track{animation:none;}
+
+/* ---------- Services ticker ---------- */
+.services-tape{
+  background:var(--red);color:var(--black);
+  overflow:hidden;white-space:nowrap;
+  padding:12px 0;
+  transform:rotate(-1deg);
+  margin:0 -4vw 56px;
+  box-shadow:0 12px 30px -12px rgba(227,50,38,.5);
 }
+.services-tape-track{
+  display:inline-flex;align-items:center;gap:16px;
+  animation:scrollLeft 24s linear infinite;
+  font-family:var(--font-display);
+  font-size:1.15rem;letter-spacing:.06em;
+}
+.services-tape-track span{white-space:nowrap;}
 
 /* ---------- Stats ---------- */
 .stats{
@@ -273,8 +287,22 @@ section{padding:120px 0;}
   background:linear-gradient(155deg, rgba(227,50,38,.14), var(--black) 65%);
 }
 .service-card.ai:hover{background:linear-gradient(155deg, rgba(227,50,38,.22), var(--surface) 65%);}
+.service-card.has-video{overflow:hidden;}
+.service-card-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.4;z-index:0;
+}
+.service-card.has-video::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:linear-gradient(155deg, rgba(227,50,38,.35), rgba(1,0,0,.85) 70%);
+}
+.service-card.has-video > *{position:relative;z-index:1;}
+.service-video-caption{
+  display:block;margin-top:18px;font-size:.78rem;color:rgba(255,255,255,.55);
+  letter-spacing:.02em;
+}
 .service-tag{
-  position:absolute;top:24px;right:28px;
+  position:absolute;top:24px;right:28px;z-index:2;
   font-family:var(--font-display);letter-spacing:.08em;font-size:.75rem;
   color:var(--black);background:var(--red);padding:3px 10px;border-radius:100px;
 }
@@ -338,12 +366,6 @@ section{padding:120px 0;}
 @media (prefers-reduced-motion: reduce){
   .ink-scroll{ --fill:1 !important; }
 }
-.quote-always{
-  display:inline-block;
-  transform:scale(.85);opacity:0;
-  transition:transform .6s var(--ease), opacity .6s var(--ease);
-}
-.quote-always.in{ transform:scale(1); opacity:1; }
 .quote-sub{
   max-width:520px;margin:0 auto;color:var(--muted);font-size:1.05rem;
 }
