@@ -348,19 +348,19 @@ section{padding:120px 0;}
   line-height:.98;letter-spacing:.01em;
   margin:0 0 28px;
 }
-/* Brightens from dim to full white as it scrolls through view */
-.ink-scroll{
-  --fill:0;
-  background:linear-gradient(90deg,
-    var(--white) 0%, var(--white) calc(var(--fill) * 100%),
-    rgba(255,255,255,.16) calc(var(--fill) * 100%), rgba(255,255,255,.16) 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-@supports not (background-clip:text){
-  .ink-scroll{ color:var(--white); background:none; }
+/* Brightens from dim to full white as it scrolls through view.
+   Two stacked copies of the same text (not a gradient text-clip driven by
+   a custom property, which some WebKit builds fail to repaint reliably)
+   the bright copy is revealed left-to-right over the dim one via clip-path. */
+.ink-scroll{ position:relative; display:inline-block; }
+.ink-layer{ display:block; }
+.ink-dim{ color:rgba(255,255,255,.16); }
+.ink-bright{
+  position:absolute; inset:0; color:var(--white);
+  clip-path:inset(0 100% 0 0);
 }
 @media (prefers-reduced-motion: reduce){
-  .ink-scroll{ --fill:1 !important; }
+  .ink-bright{ clip-path:inset(0 0 0 0) !important; }
 }
 .quote-always{
   display:inline-block;

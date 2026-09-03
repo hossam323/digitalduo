@@ -102,7 +102,9 @@ const counterIO = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 counters.forEach(el => counterIO.observe(el));
 
-// Ink-scroll: every headline tagged .ink-scroll brightens as it crosses into view
+// Ink-scroll: every headline tagged .ink-scroll brightens as it crosses into view.
+// The bright copy is revealed via clip-path (not a gradient text-clip driven by
+// a CSS custom property, which some WebKit builds don't reliably repaint).
 const inkEls = document.querySelectorAll('.ink-scroll');
 const quoteBlock = document.getElementById('quoteBlock');
 const quoteAlways = document.querySelector('.quote-always');
@@ -116,7 +118,8 @@ const updateInk = () => {
     const useEl = (el.id === 'inkText' && quoteBlock) ? quoteBlock : el;
     const rect = useEl.getBoundingClientRect();
     const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
-    el.style.setProperty('--fill', progress.toFixed(3));
+    const bright = el.querySelector('.ink-bright');
+    if (bright) bright.style.clipPath = `inset(0 ${((1 - progress) * 100).toFixed(2)}% 0 0)`;
     if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');
   });
 };
