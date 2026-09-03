@@ -359,9 +359,6 @@ section{padding:120px 0;}
   position:absolute; inset:0; color:var(--white);
   clip-path:inset(0 100% 0 0);
 }
-@media (prefers-reduced-motion: reduce){
-  .ink-bright{ clip-path:inset(0 0 0 0) !important; }
-}
 .quote-always{
   display:inline-block;
   transform:scale(.85);opacity:0;
