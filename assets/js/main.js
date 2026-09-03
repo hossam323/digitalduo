@@ -1,16 +1,6 @@
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Scroll progress bar
-const scrollProgress = document.getElementById('scrollProgress');
-const onScrollProgress = () => {
-  const h = document.documentElement;
-  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
-  scrollProgress.style.transform = `scaleX(${scrolled})`;
-};
-document.addEventListener('scroll', onScrollProgress, { passive: true });
-onScrollProgress();
-
 // Header scroll state
 const header = document.getElementById('siteHeader');
 const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
@@ -47,15 +37,12 @@ if (hasFinePointer && heroSplit && glowOrb) {
 
 // Hero mark drifts with scroll (parallax), independent of its own float animation
 const heroDuo = document.getElementById('heroDuo');
-if (heroDuo) {
-  const onHeroParallax = () => {
-    const rect = heroSplit.getBoundingClientRect();
-    const progress = Math.min(1, Math.max(0, -rect.top / (rect.height || 1)));
-    heroDuo.style.transform = `translateY(${progress * -70}px)`;
-  };
-  document.addEventListener('scroll', onHeroParallax, { passive: true });
-  onHeroParallax();
-}
+const onHeroParallax = () => {
+  if (!heroDuo || !heroSplit) return;
+  const rect = heroSplit.getBoundingClientRect();
+  const progress = Math.min(1, Math.max(0, -rect.top / (rect.height || 1)));
+  heroDuo.style.transform = `translateY(${progress * -70}px)`;
+};
 
 // Custom cursor — eased "duo" trail rather than a 1:1 snap
 const cursor = document.getElementById('cursorDot');
@@ -119,23 +106,44 @@ counters.forEach(el => counterIO.observe(el));
 const inkEls = document.querySelectorAll('.ink-scroll');
 const quoteBlock = document.getElementById('quoteBlock');
 const quoteAlways = document.querySelector('.quote-always');
-if (inkEls.length) {
-  const updateInk = () => {
-    const vh = window.innerHeight;
-    inkEls.forEach(el => {
-      // The mission quote paces its fade off the whole section (including its
-      // large padding), exactly like the original version, so it builds up
-      // slowly; every other heading paces off its own (smaller) box.
-      const useEl = (el.id === 'inkText' && quoteBlock) ? quoteBlock : el;
-      const rect = useEl.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
-      el.style.setProperty('--fill', progress.toFixed(3));
-      if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');
-    });
-  };
-  document.addEventListener('scroll', updateInk, { passive: true });
-  updateInk();
-}
+const updateInk = () => {
+  if (!inkEls.length) return;
+  const vh = window.innerHeight;
+  inkEls.forEach(el => {
+    // The mission quote paces its fade off the whole section (including its
+    // large padding), exactly like the original version, so it builds up
+    // slowly; every other heading paces off its own (smaller) box.
+    const useEl = (el.id === 'inkText' && quoteBlock) ? quoteBlock : el;
+    const rect = useEl.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
+    el.style.setProperty('--fill', progress.toFixed(3));
+    if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');
+  });
+};
+
+// Scroll progress bar
+const scrollProgress = document.getElementById('scrollProgress');
+const updateScrollProgress = () => {
+  const h = document.documentElement;
+  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  scrollProgress.style.transform = `scaleX(${scrolled})`;
+};
+
+// Drive all scroll-position-linked visuals from a single rAF loop instead of
+// the 'scroll' event: Safari fires far fewer scroll events than Chrome during
+// trackpad/momentum scrolling, which makes event-driven effects look like
+// they jump straight to their end state instead of animating smoothly.
+let lastScrollY = -1;
+const renderScrollEffects = () => {
+  if (window.scrollY !== lastScrollY) {
+    lastScrollY = window.scrollY;
+    updateScrollProgress();
+    updateInk();
+    onHeroParallax();
+  }
+  requestAnimationFrame(renderScrollEffects);
+};
+requestAnimationFrame(renderScrollEffects);
 
 // Portfolio gallery — prev/next buttons + drag-to-scroll + tap-to-reveal duotone
 const portfolioTrack = document.getElementById('portfolioTrack');
