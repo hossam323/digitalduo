@@ -106,18 +106,21 @@ counters.forEach(el => counterIO.observe(el));
 // The bright copy is revealed via clip-path (not a gradient text-clip driven by
 // a CSS custom property, which some WebKit builds don't reliably repaint).
 const inkEls = document.querySelectorAll('.ink-scroll');
-const quoteBlock = document.getElementById('quoteBlock');
 const quoteAlways = document.querySelector('.quote-always');
 const updateInk = () => {
   if (!inkEls.length) return;
   const vh = window.innerHeight;
+  const maxScroll = document.documentElement.scrollHeight - vh;
   inkEls.forEach(el => {
-    // The mission quote paces its fade off the whole section (including its
-    // large padding), exactly like the original version, so it builds up
-    // slowly; every other heading paces off its own (smaller) box.
-    const useEl = (el.id === 'inkText' && quoteBlock) ? quoteBlock : el;
-    const rect = useEl.getBoundingClientRect();
-    const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height * 0.6)));
+    // Starts brightening as the heading enters at the bottom and is fully lit
+    // by the time it reaches 40% down the screen, so no part is still dim while
+    // it's being read. Headings near the end of the page that can never scroll
+    // that high finish at the bottom of the page instead.
+    const rect = el.getBoundingClientRect();
+    const lowestTop = rect.top + window.scrollY - maxScroll;
+    const end = Math.max(vh * 0.4, lowestTop);
+    const start = Math.max(vh * 0.95, end + vh * 0.25);
+    const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
     const bright = el.querySelector('.ink-bright');
     if (bright) bright.style.clipPath = `inset(0 ${((1 - progress) * 100).toFixed(2)}% 0 0)`;
     if (el.id === 'inkText' && progress > 0.85) quoteAlways.classList.add('in');

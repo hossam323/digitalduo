@@ -173,10 +173,10 @@ function screenMaterial(painC, fixC) {
       void main(){
         float pain = 1.0 - uFix;
         float band = floor(vUv.y * 22.0);
-        float g = step(0.975, h(band + floor(uTime * 6.0) * 7.13)) * pain;
+        float g = step(0.985, h(band + floor(uTime * 5.0) * 7.13)) * pain;
         vec2 uv = vUv; uv.x += (h(band * 1.7 + floor(uTime * 8.0)) - 0.5) * 0.07 * g;
         vec4 a = texture2D(uA, uv);
-        a.rgb += vec3(0.12, 0.0, 0.0) * g;
+        a.rgb += vec3(0.06, 0.0, 0.0) * g;
         vec4 b = texture2D(uB, vUv);
         float edge = uFix * 1.25 - 0.12;
         float wipe = smoothstep(edge - 0.12, edge, 1.0 - vUv.y);
@@ -190,39 +190,84 @@ function screenMaterial(painC, fixC) {
 }
 
 // ---------- Station artwork ----------
+function brandMark(x, cx, cy, r, bg, fg) {
+  x.fillStyle = bg; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.fill();
+  txt(x, 'YB', cx, cy + r * 0.36, r, fg, 800, 'center');
+}
+
 function contentScreen(fixed) {
   const [c, x] = makeCanvas(520, 1010);
   x.fillStyle = '#0d0c0c'; x.fillRect(0, 0, 520, 1010);
   txt(x, '9:41', 30, 46, 22, MUTED, 600);
-  if (fixed) { const g = x.createLinearGradient(26, 80, 98, 152); g.addColorStop(0, RED); g.addColorStop(1, '#ff8a7a'); x.fillStyle = g; } else x.fillStyle = '#2a2727';
-  x.beginPath(); x.arc(62, 118, 36, 0, Math.PI * 2); x.fill();
-  txt(x, 'yourbrand', 116, 110, 30, WHITE, 800);
-  txt(x, fixed ? 'Posted today · 14 scheduled' : 'Last post: 23 days ago', 116, 144, 21, fixed ? 'rgba(255,255,255,.8)' : RED, 700);
-  txt(x, fixed ? '186 posts   ·   12.4k followers' : '42 posts   ·   1,203 followers', 30, 198, 20, MUTED, 600);
+  if (fixed) { x.strokeStyle = RED; x.lineWidth = 5; x.beginPath(); x.arc(64, 120, 42, 0, Math.PI * 2); x.stroke(); }
+  brandMark(x, 64, 120, 34, fixed ? RED : '#3a2422', fixed ? WHITE : 'rgba(255,255,255,.45)');
+  txt(x, 'yourbrand', 118, 112, 30, WHITE, 800);
+  txt(x, fixed ? 'Posted today · 14 scheduled' : 'Last post: 23 days ago', 118, 146, 21, fixed ? 'rgba(255,255,255,.8)' : RED, 700);
+  txt(x, fixed ? '186 posts   ·   12.4k followers' : '42 posts   ·   1,203 followers', 30, 200, 20, MUTED, 600);
   const S = 150, G = 10, X0 = 25, Y0 = 222;
   const arts = [
-    (X, Y) => { const g = x.createLinearGradient(X, Y, X + S, Y + S); g.addColorStop(0, RED); g.addColorStop(1, '#5a0d08'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'NEW', X + 16, Y + S - 18, 34, WHITE, 800); },
-    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); x.fillStyle = RED; x.beginPath(); x.arc(X + S / 2, Y + S / 2, 40, 0, Math.PI * 2); x.fill(); },
-    (X, Y) => { x.fillStyle = '#1c1a1a'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, '50%', X + S / 2, Y + S / 2 + 8, 40, RED, 800, 'center'); txt(x, 'OFF', X + S / 2, Y + S / 2 + 40, 20, WHITE, 800, 'center'); },
+    (X, Y) => { const g = x.createLinearGradient(X, Y, X + S, Y + S); g.addColorStop(0, RED); g.addColorStop(1, '#5a0d08'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'NEW', X + 16, Y + 50, 34, WHITE, 800); },
+    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); x.fillStyle = RED; x.beginPath(); x.arc(X + S / 2, Y + S / 2 - 6, 38, 0, Math.PI * 2); x.fill(); },
+    (X, Y) => { x.fillStyle = '#1c1a1a'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, '50%', X + S / 2, Y + S / 2 + 4, 40, RED, 800, 'center'); txt(x, 'OFF', X + S / 2, Y + S / 2 + 34, 20, WHITE, 800, 'center'); },
     (X, Y) => { x.fillStyle = RED; rr(x, X, Y, S, S, 10); x.fill(); x.strokeStyle = 'rgba(255,255,255,.5)'; x.lineWidth = 6; for (let i = 1; i < 5; i++) { x.beginPath(); x.moveTo(X + i * 30, Y + 10); x.lineTo(X + i * 30 - 30, Y + S - 10); x.stroke(); } },
     (X, Y) => { const g = x.createRadialGradient(X + S / 2, Y + S / 2, 10, X + S / 2, Y + S / 2, 90); g.addColorStop(0, '#ffd2cc'); g.addColorStop(1, '#2a1110'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill(); },
-    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'REEL', X + 16, Y + 40, 24, '#111', 800); x.fillStyle = RED; x.beginPath(); x.moveTo(X + 60, Y + 70); x.lineTo(X + 100, Y + 95); x.lineTo(X + 60, Y + 120); x.fill(); },
+    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'REEL', X + 16, Y + 40, 24, '#111', 800); x.fillStyle = RED; x.beginPath(); x.moveTo(X + 60, Y + 66); x.lineTo(X + 100, Y + 91); x.lineTo(X + 60, Y + 116); x.fill(); },
   ];
   for (let i = 0; i < 9; i++) {
     const X = X0 + (i % 3) * (S + G), Y = Y0 + Math.floor(i / 3) * (S + G);
-    if (fixed) arts[(i * 5) % arts.length](X, Y);
-    else if (i < 2) { x.fillStyle = '#211f1f'; rr(x, X, Y, S, S, 10); x.fill(); x.fillStyle = '#333'; x.beginPath(); x.moveTo(X + 20, Y + S - 30); x.lineTo(X + 60, Y + 60); x.lineTo(X + 100, Y + S - 30); x.fill(); }
-    else { x.setLineDash([8, 8]); x.strokeStyle = FAINT; x.lineWidth = 2; rr(x, X + 2, Y + 2, S - 4, S - 4, 10); x.stroke(); x.setLineDash([]); txt(x, '+', X + S / 2, Y + S / 2 + 12, 34, FAINT, 400, 'center'); }
+    if (fixed) { arts[(i * 5) % arts.length](X, Y); brandMark(x, X + S - 22, Y + S - 22, 14, 'rgba(0,0,0,.55)', WHITE); }
+    else if (i < 2) {
+      // the last two posts: on brand, but weeks old
+      x.globalAlpha = 0.45;
+      const g = x.createLinearGradient(X, Y, X + S, Y + S); g.addColorStop(0, '#5a1f1b'); g.addColorStop(1, '#1a1212'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill();
+      brandMark(x, X + S / 2, Y + 58, 26, RED, WHITE);
+      txt(x, i ? 'SUMMER' : 'NEW IN', X + S / 2, Y + 118, 20, WHITE, 800, 'center');
+      x.globalAlpha = 1;
+    } else { x.setLineDash([8, 8]); x.strokeStyle = FAINT; x.lineWidth = 2; rr(x, X + 2, Y + 2, S - 4, S - 4, 10); x.stroke(); x.setLineDash([]); txt(x, '+', X + S / 2, Y + S / 2 + 12, 34, FAINT, 400, 'center'); }
   }
-  const by = 732;
-  x.fillStyle = '#171515'; rr(x, 25, by, 470, 232, 22); x.fill();
-  txt(x, 'This month', 50, by + 48, 22, MUTED, 700);
-  txt(x, fixed ? '♥ 2.4k' : '♥ 12', 50, by + 118, 54, WHITE, 800);
-  txt(x, fixed ? 'Reach ↑ 3.1x' : 'Reach ↓ 64%', 50, by + 176, 26, fixed ? WHITE : RED, 800);
+  // notification: ignored reminder, or the AI scheduler
+  const ny = 716;
+  x.fillStyle = fixed ? '#1d1b1b' : 'rgba(227,50,38,.16)'; rr(x, 25, ny, 470, 82, 18); x.fill();
+  x.fillStyle = fixed ? WHITE : RED; x.beginPath(); x.arc(64, ny + 41, 18, 0, Math.PI * 2); x.fill();
+  txt(x, fixed ? '✓' : '!', 64, ny + 49, 22, fixed ? '#111' : WHITE, 800, 'center');
+  txt(x, fixed ? 'Next post: today, 6:00 PM' : 'Reminder: post something this week', 96, ny + 36, 20, WHITE, 800);
+  txt(x, fixed ? 'Auto-scheduled by AI' : 'Snoozed 4 times', 96, ny + 64, 17, fixed ? MUTED : 'rgba(227,50,38,.85)', 700);
+  const by = 812;
+  x.fillStyle = '#171515'; rr(x, 25, by, 470, 176, 22); x.fill();
+  txt(x, 'This month', 50, by + 42, 20, MUTED, 700);
+  txt(x, fixed ? '♥ 2.4k' : '♥ 12', 50, by + 104, 50, WHITE, 800);
+  txt(x, fixed ? 'Reach ↑ 3.1x' : 'Reach ↓ 64%', 50, by + 152, 24, fixed ? WHITE : RED, 800);
   x.strokeStyle = fixed ? RED : 'rgba(255,255,255,.3)'; x.lineWidth = 6; x.beginPath();
-  for (let i = 0; i <= 10; i++) { const X = 300 + i * 17, Y = by + (fixed ? 190 - i * i * 1.3 : 90 + i * 9 + (i % 2) * 10); i ? x.lineTo(X, Y) : x.moveTo(X, Y); }
+  for (let i = 0; i <= 10; i++) { const X = 300 + i * 17, Y = by + (fixed ? 150 - i * i * 1.1 : 60 + i * 8 + (i % 2) * 10); i ? x.lineTo(X, Y) : x.moveTo(X, Y); }
   x.stroke();
   return c;
+}
+
+// Redrawn while the station is broken: pieces arrive late, the layout jumps and frames stutter.
+function drawWebPain(x, lt, t) {
+  x.fillStyle = '#0d0c0c'; x.fillRect(0, 0, 1024, 646);
+  x.fillStyle = '#1b1919'; x.fillRect(0, 0, 1024, 56);
+  for (let i = 0; i < 3; i++) { x.fillStyle = '#3a3636'; x.beginPath(); x.arc(30 + i * 26, 28, 8, 0, Math.PI * 2); x.fill(); }
+  x.fillStyle = '#0d0c0c'; rr(x, 120, 14, 520, 28, 14); x.fill();
+  txt(x, 'yourbrand.com', 140, 34, 17, MUTED, 600);
+  x.strokeStyle = RED; x.lineWidth = 3; x.lineCap = 'round'; x.beginPath(); x.arc(668, 28, 9, t * 5, t * 5 + 4.4); x.stroke();
+  const prog = Math.min(1, lt / 8.4);
+  x.fillStyle = RED; x.fillRect(0, 54, 1024 * (prog < 1 ? Math.floor(prog * 6) / 6 * 0.9 + prog * 0.08 : 1), 4);
+  if (lt > 1.4) { x.fillStyle = '#242121'; x.fillRect(60, 84, 904, 44); txt(x, 'YOURBRAND', 80, 114, 20, 'rgba(255,255,255,.4)', 800); }
+  if (lt > 2.4) { const y = lt < 4.6 ? 160 : 232; x.fillStyle = '#2a2727'; x.fillRect(60, y, 460, 40); x.fillRect(60, y + 54, 360, 40); }
+  x.strokeStyle = '#3a3636'; x.lineWidth = 3; x.strokeRect(580, 160, 380, 260);
+  if (lt > 3) {
+    const bands = Math.min(8, Math.floor((lt - 3) * 1.5));
+    for (let b = 0; b < bands; b++) { x.fillStyle = `rgba(227,50,38,${0.12 + b * 0.05})`; x.fillRect(582, 162 + b * 32, 376, 32); }
+  } else { x.beginPath(); x.moveTo(580, 160); x.lineTo(960, 420); x.moveTo(960, 160); x.lineTo(580, 420); x.stroke(); }
+  if (lt > 5.4) { x.fillStyle = '#211f1f'; x.fillRect(60, 360, 420, 18); x.fillRect(60, 392, 360, 18); }
+  if (lt > 8.4) { x.fillStyle = '#3a2220'; rr(x, 60, 432, 200, 54, 27); x.fill(); txt(x, 'Book now', 160, 467, 20, 'rgba(255,255,255,.5)', 800, 'center'); }
+  if (lt < 8.4) {
+    x.fillStyle = 'rgba(13,12,12,.78)'; rr(x, 342, 456, 340, 112, 20); x.fill();
+    x.strokeStyle = RED; x.lineWidth = 7; x.beginPath(); x.arc(398, 512, 22, t * 4, t * 4 + 4.4); x.stroke();
+    txt(x, `Loading… ${lt.toFixed(1)} s`, 438, 522, 28, WHITE, 800);
+  }
+  txt(x, lt < 8.4 ? 'Visitors leaving: 78%' : 'Loaded in 8.4 s · 78% already left', 512, 620, 22, RED, 800, 'center');
 }
 
 function webScreen(fixed) {
@@ -262,7 +307,7 @@ function leadsScreen(fixed) {
   txt(x, 'Inbox', 34, 70, 40, WHITE, 800);
   x.fillStyle = fixed ? '#2a2727' : RED; rr(x, 150, 38, fixed ? 54 : 66, 40, 20); x.fill();
   txt(x, fixed ? '0' : '47', fixed ? 177 : 183, 66, 24, WHITE, 800, 'center');
-  const rows = [['Sara', 'Hi, is this still available?', '11:42 PM'], ['Omar', 'How much is it?', '12:05 AM'], ['Lina', 'Can I book for Friday?', '1:17 AM'], ['Ahmed', 'Do you deliver to Marina?', '2:30 AM'], ['Maya', 'Hello? Anyone there?', '9:58 AM']];
+  const rows = [['Sara', 'Hi, is this still available?', '11:42 PM'], ['James', 'How much is it?', '12:05 AM'], ['Fatima', 'Can I book for Friday?', '1:17 AM'], ['Emily', 'Do you deliver to Marina?', '2:30 AM'], ['Omar', 'Hello? Anyone there?', '9:58 AM']];
   rows.forEach(([n, m, tm], i) => {
     const Y = 110 + i * 118;
     x.fillStyle = '#171515'; rr(x, 24, Y, 592, 104, 18); x.fill();
@@ -288,10 +333,22 @@ function pillLabel(text, sub, fixed, w = 900) {
   return c;
 }
 
+// The UAE dirham symbol: a D crossed by two horizontal bars.
+function drawDirham(x, cx, cy, s, color) {
+  x.strokeStyle = color; x.lineWidth = s * 0.12; x.lineCap = 'round'; x.lineJoin = 'round';
+  x.beginPath();
+  x.moveTo(cx - s * 0.3, cy - s * 0.5); x.lineTo(cx - s * 0.3, cy + s * 0.5);
+  x.moveTo(cx - s * 0.3, cy - s * 0.5); x.bezierCurveTo(cx + s * 0.62, cy - s * 0.5, cx + s * 0.62, cy + s * 0.5, cx - s * 0.3, cy + s * 0.5);
+  x.moveTo(cx - s * 0.58, cy - s * 0.13); x.lineTo(cx + s * 0.44, cy - s * 0.13);
+  x.moveTo(cx - s * 0.58, cy + s * 0.13); x.lineTo(cx + s * 0.44, cy + s * 0.13);
+  x.stroke();
+}
+
 function appIcon(name, glyph) {
   const [c, x] = makeCanvas(256, 256);
   x.fillStyle = '#1b1919'; rr(x, 0, 0, 256, 256, 46); x.fill();
-  txt(x, glyph, 128, 140, 84, RED, 800, 'center');
+  if (glyph === 'AED') drawDirham(x, 128, 112, 90, RED);
+  else txt(x, glyph, 128, 140, 84, RED, 800, 'center');
   txt(x, name, 128, 214, 32, WHITE, 800, 'center');
   return c;
 }
@@ -358,7 +415,11 @@ function makeStations(frameMat, rand) {
   // 02 Website: a broken browser; visitors arrive and bounce, then arrive and convert
   {
     const group = new THREE.Group();
-    const web = device(3.8, 2.4, 0.12, 0.12, webScreen(false), webScreen(true));
+    const [painC, painX] = makeCanvas(1024, 646);
+    drawWebPain(painX, 0, 0);
+    const web = device(3.8, 2.4, 0.12, 0.12, painC, webScreen(true));
+    const painTex = web.mat.uniforms.uA.value;
+    let nextDraw = 0;
     web.g.position.y = 0.3;
     group.add(web.g);
     const N = 54;
@@ -378,6 +439,12 @@ function makeStations(frameMat, rand) {
     const P = new THREE.Vector3(), Q = new THREE.Vector3();
     stations.push({ group, update(t, fix) {
       web.mat.uniforms.uTime.value = t; web.mat.uniforms.uFix.value = fix;
+      // uneven redraw intervals make the page feel janky, not just slow
+      if (fix < 0.98 && t >= nextDraw) {
+        drawWebPain(painX, t % 11, t);
+        painTex.needsUpdate = true;
+        nextDraw = t + 0.08 + (Math.sin(t * 13.7) * 0.5 + 0.5) * 0.45;
+      }
       seeds.forEach((sd, k) => {
         const p = (t * 0.2 + sd.off) % 1;
         // without AI: approach, hesitate, leave
@@ -436,19 +503,35 @@ function makeStations(frameMat, rand) {
     } });
   }
 
-  // 04 Ads: budget pours into a cracked funnel and leaks; with AI it lands as sales
+  // 04 Ads: budget pours into a funnel with a hole torn in its side; with AI the hole is patched and coins land as sales
   {
     const group = new THREE.Group();
-    const prof = [[0.22, -0.95], [0.24, -0.25], [0.42, 0.15], [0.9, 0.75], [1.35, 1.35], [1.5, 1.7]].map(([r, y]) => new THREE.Vector2(r, y));
-    const funnel = new THREE.Mesh(new THREE.LatheGeometry(prof, 64), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, roughness: 0.05, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 }));
-    group.add(funnel);
+    const rAt = (y) => (y > 0.15 ? 0.42 + (y - 0.15) * 0.8 : 0.24);
+    const V2 = (r, y) => new THREE.Vector2(r, y);
+    const HC = 0.55, HW = 1.05, HY0 = 0.2, HY1 = 0.72;
+    const glass = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.26, roughness: 0.05, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 });
+    const lower = [V2(0.22, -0.95), V2(0.24, -0.25), V2(0.42, 0.15), V2(rAt(HY0), HY0)];
+    const band = [V2(rAt(HY0), HY0), V2(rAt(0.46), 0.46), V2(rAt(HY1), HY1)];
+    const upper = [V2(rAt(HY1), HY1), V2(0.9, 0.75), V2(1.35, 1.35), V2(1.5, 1.7)];
+    group.add(new THREE.Mesh(new THREE.LatheGeometry(lower, 48), glass));
+    group.add(new THREE.Mesh(new THREE.LatheGeometry(band, 48, HC + HW / 2, Math.PI * 2 - HW), glass));
+    group.add(new THREE.Mesh(new THREE.LatheGeometry(upper, 64), glass));
+    const patchMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.25, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false, roughness: 0.2 });
+    const patch = new THREE.Mesh(new THREE.LatheGeometry(band, 12, HC - HW / 2, HW), patchMat);
+    group.add(patch);
     const rim = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.035, 12, 96), new THREE.MeshBasicMaterial({ color: RED }));
     rim.rotation.x = Math.PI / 2; rim.position.y = 1.7;
     group.add(rim);
-    const crackPts = [];
-    for (let i = 0; i <= 8; i++) crackPts.push(new THREE.Vector3(0.66 + (i % 2) * 0.08 + i * 0.03, 0.15 + i * 0.09, 0.42 + i * 0.05));
-    const crack = new THREE.Line(new THREE.BufferGeometry().setFromPoints(crackPts), new THREE.LineBasicMaterial({ color: RED, transparent: true }));
-    group.add(crack);
+    // torn edge around the hole
+    const edge = [];
+    const onWall = (phi, y, j) => new THREE.Vector3(Math.sin(phi) * (rAt(y) + 0.012), y, Math.cos(phi) * (rAt(y) + 0.012)).add(new THREE.Vector3(0, j, 0));
+    const P0 = HC - HW / 2, P1 = HC + HW / 2;
+    for (let i = 0; i <= 14; i++) edge.push(onWall(P0 + (P1 - P0) * (i / 14), HY1, (i % 2 ? -0.045 : 0.02)));
+    for (let i = 1; i <= 6; i++) edge.push(onWall(P1 + (i % 2 ? -0.06 : 0), HY1 - (HY1 - HY0) * (i / 6), 0));
+    for (let i = 1; i <= 14; i++) edge.push(onWall(P1 - (P1 - P0) * (i / 14), HY0, (i % 2 ? 0.045 : -0.02)));
+    for (let i = 1; i <= 6; i++) edge.push(onWall(P0 + (i % 2 ? 0.06 : 0), HY0 + (HY1 - HY0) * (i / 6), 0));
+    const tear = new THREE.Line(new THREE.BufferGeometry().setFromPoints(edge), new THREE.LineBasicMaterial({ color: RED, transparent: true }));
+    group.add(tear);
     const bars = [0.9, 1.5, 2.3].map((h, j) => {
       const b = new THREE.Mesh(new RoundedBoxGeometry(0.36, 1, 0.36, 4, 0.06), new THREE.MeshPhysicalMaterial({ color: j === 2 ? RED : 0xf4f1ea, roughness: 0.3, clearcoat: 1 }));
       b.position.set(1.7 + j * 0.5, -1.9, 0.2);
@@ -458,43 +541,52 @@ function makeStations(frameMat, rand) {
     });
     const coinGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.035, 24);
     const coinMat = new THREE.MeshPhysicalMaterial({ color: 0xe9c46a, metalness: 1, roughness: 0.28, clearcoat: 0.6 });
-    const coins = [...Array(26)].map((_, k) => {
+    const coins = [...Array(28)].map((_, k) => {
       const m = new THREE.Mesh(coinGeo, coinMat);
-      m.userData = { a: rand() * Math.PI * 2, r: 0.3 + rand() * 0.8, off: k / 26 };
+      const a = rand() * Math.PI * 2, r = 0.3 + rand() * 0.8;
+      m.userData = { x0: Math.cos(a) * r, z0: Math.sin(a) * r, phi0: Math.atan2(Math.cos(a), Math.sin(a)), off: k / 28 };
       group.add(m);
       return m;
     });
     const lbl = label(pillLabel('AED 12,400 spent', '3 sales this month', false), pillLabel('ROAS 4.6x', '212 sales this month', true), 2.7);
     lbl.m.position.set(0, 2.55, 0.4);
     group.add(lbl.m);
-    const rOf = (y) => (y > 0.15 ? 0.42 + (y - 0.15) * (1.08 / 1.55) : 0.24) - 0.17;
+    const inner = (y) => rAt(y) - 0.17;
     const P = new THREE.Vector3(), Q = new THREE.Vector3();
+    const HOLE = new THREE.Vector3(Math.sin(HC), 0, Math.cos(HC));
     stations.push({ group, update(t, fix) {
       lbl.mat.uniforms.uTime.value = t; lbl.mat.uniforms.uFix.value = fix;
-      crack.material.opacity = (1 - fix) * (0.6 + Math.sin(t * 12) * 0.4);
+      tear.material.opacity = (1 - fix) * (0.75 + Math.sin(t * 9) * 0.25);
+      patchMat.opacity = fix * 0.55;
       bars.forEach((b) => { const h = Math.max(0.05, b.userData.h * fix); b.scale.y = h; b.position.y = -2.05 + h / 2; });
       coins.forEach((m, k) => {
         const u = m.userData;
         const p = (t * 0.14 + u.off) % 1;
-        let spin = 0;
-        if (p < 0.28) { const q = p / 0.28; P.set(Math.cos(u.a) * u.r, 3.6 - q * q * 1.9, Math.sin(u.a) * u.r); }
-        else if (p < 0.6) { const q = (p - 0.28) / 0.32; const y = 1.7 - q * 1.55; const a = u.a + q * 7; P.set(Math.cos(a) * rOf(y), y, Math.sin(a) * rOf(y)); spin = q; }
-        else P.set(0, 0.15, 0);
-        Q.copy(P);
-        if (p >= 0.6) {
-          const q = (p - 0.6) / 0.4;
-          // leak out through the crack
-          P.set(0.75 + q * 2.2, 0.4 - q * q * 5, 0.5 + q * 1.4);
-          // or drop through the spout onto the sales bars
-          const j = k % 3, b = bars[j];
+        let tumble = 0;
+        // without AI: swirl down to the hole and pour out of it
+        if (p < 0.28) { const q = p / 0.28; P.set(u.x0, 3.6 - q * q * 1.9, u.z0); }
+        else if (p < 0.5) {
+          const q = (p - 0.28) / 0.22, y = 1.7 - q * 1.24;
+          let end = HC; while (end < u.phi0 + Math.PI * 2) end += Math.PI * 2;
+          const a = u.phi0 + (end - u.phi0) * q;
+          P.set(Math.sin(a) * inner(y), y, Math.cos(a) * inner(y));
+        } else {
+          const q = (p - 0.5) / 0.5, d = inner(0.46) + q * 3.2;
+          P.copy(HOLE).multiplyScalar(d); P.y = 0.46 + q * 0.25 - q * q * 5.2; tumble = q * 6;
+        }
+        // with AI: swirl through the spout and stack up as sales
+        if (p < 0.28) Q.copy(P);
+        else if (p < 0.6) { const q = (p - 0.28) / 0.32, y = 1.7 - q * 1.55, a = u.phi0 + q * 7; Q.set(Math.sin(a) * inner(y), y, Math.cos(a) * inner(y)); }
+        else {
+          const q = (p - 0.6) / 0.4, b = bars[k % 3];
           const top = -2.05 + Math.max(0.05, b.userData.h * fix);
           if (q < 0.4) Q.set(0, 0.15 - (q / 0.4) * 1.1, 0);
-          else { const s = (q - 0.4) / 0.6; Q.set(b.position.x * s, -0.95 + (top + 0.05 + 0.95) * s - Math.sin(s * Math.PI) * -0.6, 0.2 * s); }
+          else { const s2 = (q - 0.4) / 0.6; Q.set(b.position.x * s2, -0.95 + (top + 1) * s2 + Math.sin(s2 * Math.PI) * 0.6, 0.2 * s2); }
         }
         P.lerp(Q, fix);
         m.position.copy(P);
-        m.rotation.set(t * 2 + k, spin * 4, t + k * 0.3);
-        m.visible = !(fix < 0.5 && p > 0.95);
+        m.rotation.set(t * 2 + k + tumble * (1 - fix), tumble, t + k * 0.3);
+        m.visible = !(fix < 0.5 && p > 0.94);
       });
     } });
   }
@@ -502,7 +594,7 @@ function makeStations(frameMat, rand) {
   // 05 Admin: disconnected tools tangled in wires; with AI they snap into one system
   {
     const group = new THREE.Group();
-    const apps = [['CRM', '◎'], ['Sheets', '▦'], ['Email', '✉'], ['WhatsApp', '✆'], ['Calendar', '▤'], ['Invoices', '₤']];
+    const apps = [['CRM', '◎'], ['Sheets', '▦'], ['Email', '✉'], ['WhatsApp', '✆'], ['Calendar', '▤'], ['Invoices', 'AED']];
     const tileGeo = new RoundedBoxGeometry(0.78, 0.78, 0.12, 4, 0.12);
     const tiles = apps.map(([n, gl], k) => {
       const g = new THREE.Group();
@@ -786,7 +878,7 @@ function init() {
     if (m) {
       const i = +m[1], P = stationPos[i], n = outward(i), r = rightOf(i);
       const dist = [8.2, 8.8, 8.4, 10.5, 10.2][i];
-      return { ...base, cam: P.clone().addScaledVector(n, dist).addScaledVector(UP, 1.5), target: P.clone().addScaledVector(UP, 0.25), duo: P.clone().addScaledVector(n, -1.5).addScaledVector(r, -2.9).addScaledVector(UP, 1.6), duoScale: 0.27 };
+      return { ...base, cam: P.clone().addScaledVector(n, dist).addScaledVector(UP, 1.5), target: P.clone().addScaledVector(UP, [0.25, 0.3, 0.25, 0.65, 0.75][i]), duo: P.clone().addScaledVector(n, -1.5).addScaledVector(r, -2.9).addScaledVector(UP, 1.6), duoScale: 0.27 };
     }
     const top = { cam: C.clone().add(new THREE.Vector3(0, 21, 37)), target: C.clone().add(new THREE.Vector3(0, -1, 0)), duo: C.clone().add(new THREE.Vector3(0, 1, 0)), duoScale: 1.9 };
     if (name === 'ai') return { ...base, ...top, solve: 0.75, beams: 1 };
@@ -849,7 +941,7 @@ function init() {
   const hit = new THREE.Vector3(), A = new THREE.Vector3(), B = new THREE.Vector3(), Cc = new THREE.Vector3(), P = new THREE.Vector3(), dir = new THREE.Vector3();
 
   const clock = new THREE.Clock();
-  let t = 0, started = false;
+  let t = 0, started = false, orbit = 0;
   const frame = () => {
     requestAnimationFrame(frame);
     if (document.hidden || !anchors.length) return;
@@ -887,11 +979,12 @@ function init() {
     duo.position.copy(p.duo);
     duo.position.y += Math.sin(t * 1.1) * 0.08 * (1 - p.net);
     duo.scale.setScalar(p.duoScale * (1 + pulse * 0.07));
-    duo.rotation.y = ptr.x * 0.5 * p.net + t * 0.25 * (1 - p.net);
+    duo.rotation.y = ptr.x * 0.5 * p.net + Math.sin(t * 0.2) * 0.2 * (1 - p.net);
     duo.rotation.x = -ptr.y * 0.3 * p.net;
     halo.material.opacity = 0.3 + energy * 0.12 + pulse * 0.3 + p.beams * 0.25;
 
-    const ang = t * (0.34 + p.beams * 0.5);
+    orbit += dt * (0.34 * p.net + 0.12 * (1 - p.net));
+    const ang = orbit;
     A.set(Math.cos(ang) * 1.28, Math.sin(ang * 2) * 0.14, Math.sin(ang) * 1.28);
     B.copy(A).multiplyScalar(-1);
     redOrb.position.copy(A); chromeOrb.position.copy(B);
