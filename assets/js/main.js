@@ -136,6 +136,22 @@ const updateScrollProgress = () => {
 // the 'scroll' event: Safari fires far fewer scroll events than Chrome during
 // trackpad/momentum scrolling, which makes event-driven effects look like
 // they jump straight to their end state instead of animating smoothly.
+// Customer journey rail: which station is in view, and which are behind us
+const cjSteps = [...document.querySelectorAll('.cj-step[data-rail]')];
+const cjRail = [...document.querySelectorAll('.cj-rail li')];
+const updateJourneyRail = () => {
+  if (!cjSteps.length) return;
+  const mid = window.innerHeight / 2;
+  const first = cjSteps[0].getBoundingClientRect();
+  const last = cjSteps[cjSteps.length - 1].getBoundingClientRect();
+  document.documentElement.classList.toggle('in-cj', first.top < mid && last.bottom > mid);
+  cjSteps.forEach((s, i) => {
+    const r = s.getBoundingClientRect();
+    cjRail[i].classList.toggle('active', r.top < mid && r.bottom > mid);
+    cjRail[i].classList.toggle('done', r.bottom <= mid);
+  });
+};
+
 let lastScrollY = -1;
 const renderScrollEffects = () => {
   if (window.scrollY !== lastScrollY) {
@@ -143,6 +159,7 @@ const renderScrollEffects = () => {
     updateScrollProgress();
     updateInk();
     onHeroParallax();
+    updateJourneyRail();
   }
   requestAnimationFrame(renderScrollEffects);
 };

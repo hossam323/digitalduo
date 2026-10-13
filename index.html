@@ -51,7 +51,7 @@
 <main id="top">
 
   <!-- HERO -->
-  <section class="hero" id="heroSplit">
+  <section class="hero" id="heroSplit" data-cj="hero">
     <div class="hero-bg" aria-hidden="true">
       <video class="hero-bg-video" autoplay muted loop playsinline poster="https://d8j0ntlcm91z4.cloudfront.net/user_3GJip8tsyqdEOuIC56y1Sqaj2ZT/hf_20260902_190508_f5c285d8-64d3-4d86-8233-3572a945b41d.png">
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJip8tsyqdEOuIC56y1Sqaj2ZT/hf_20260902_190725_0be7fef5-2a77-4bec-81c9-8592ed5218c7.mp4" type="video/mp4">
@@ -60,8 +60,6 @@
       <div class="dot-field"></div>
       <div class="glow-orb" id="glowOrb"></div>
     </div>
-
-    <div class="hero-3d" id="hero3d" aria-hidden="true"></div>
 
     <div class="wrap hero-inner">
       <p class="eyebrow reveal">AI Digital Marketing Agency</p>
@@ -73,7 +71,7 @@
       <p class="hero-sub reveal">We look inside your business, show you which AI tools belong where, build the automations and the content, and train your team to run it.</p>
       <div class="hero-actions reveal">
         <a href="#contact" class="btn btn-primary">Book a Free AI Audit</a>
-        <a href="#automation" class="btn btn-ghost">See what AI can do <span aria-hidden="true">↓</span></a>
+        <a href="#journey" class="btn btn-ghost">See what AI can do <span aria-hidden="true">↓</span></a>
       </div>
     </div>
 
@@ -88,6 +86,91 @@
         <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
       </div>
     </div>
+  </section>
+
+  <!-- CUSTOMER JOURNEY: scroll through a business before and after AI (3D in assets/js/journey3d.js) -->
+  <section class="cj" id="journey" aria-label="A business before and after AI">
+    <div class="cj-step cj-step--intro" data-cj="intro">
+      <div class="wrap"><div class="cj-card">
+        <p class="eyebrow">The journey</p>
+        <h2 class="cj-title">Meet your business.<br><span class="text-red">Before AI.</span></h2>
+        <p>Great product, real customers, and five quiet leaks holding it back. Keep scrolling and follow along.</p>
+        <span class="cj-scroll" aria-hidden="true">Scroll <i></i></span>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s0" data-rail="0">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">01</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Content</p>
+        <h3 class="cj-title">Posting when you remember.</h3>
+        <p>Content goes out whenever someone finds a spare hour. The feed goes quiet, reach drops, and customers start to wonder if you're still open.</p>
+        <ul class="cj-costs"><li>23 days since the last post</li><li>Reach down 64%</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s1" data-rail="1">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">02</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Website</p>
+        <h3 class="cj-title">A website that leaks visitors.</h3>
+        <p>It loads slowly, looks dated on a phone and gives visitors no clear next step. They arrive, hesitate, and leave for a competitor.</p>
+        <ul class="cj-costs"><li>8.4 seconds to load</li><li>78% bounce rate</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s2" data-rail="2">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">03</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Leads</p>
+        <h3 class="cj-title">Leads waiting while you sleep.</h3>
+        <p>WhatsApps and DMs land at 11pm and get answered at 11am. By then the customer has bought somewhere else.</p>
+        <ul class="cj-costs"><li>47 unread messages</li><li>14 hour average reply</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s3" data-rail="3">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">04</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Ads</p>
+        <h3 class="cj-title">Ad spend with a hole in it.</h3>
+        <p>Campaigns run on guesswork. Budget pours in at the top and most of it leaks out before anyone buys.</p>
+        <ul class="cj-costs"><li>AED 12,400 spent</li><li>3 sales</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s4" data-rail="4">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">05</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Admin</p>
+        <h3 class="cj-title">Ten tools that don't talk.</h3>
+        <p>CRM, spreadsheets, calendar, invoices: none of them connected. Your team copies and pastes the week away.</p>
+        <ul class="cj-costs"><li>31 hours a week on admin</li><li>Customer data in 10 places</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step cj-step--ai" data-cj="ai" data-rail="5">
+      <div class="wrap"><div class="cj-card cj-card--ai">
+        <div class="cj-meta"><span class="cj-tag cj-tag--ai">With AI</span></div>
+        <p class="eyebrow">Then we bring in AI</p>
+        <h3 class="cj-title">AI connects everything.</h3>
+        <p>We audit the business, bring in the right AI tools and orchestrate them into one system. Content ships on schedule, the site converts, every lead gets an instant reply, ads optimise themselves and admin runs in the background.</p>
+        <ul class="cj-wins"><li>Posting daily, on autopilot</li><li>Site loads in 0.8 s</li><li>Every lead answered in 3 s</li><li>ROAS 4.6x</li><li>Admin down to 4 hrs a week</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step cj-step--growth" data-cj="growth">
+      <div class="wrap"><div class="cj-card cj-card--growth">
+        <h2 class="cj-title">Same business.<br><span class="text-red">A whole different level.</span></h2>
+        <p>That's what we build. Let's start by finding the leaks in yours.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Book a free AI audit</a>
+          <a href="#automation" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="cj-note">An illustrative business. Your audit maps your real numbers.</p>
+      </div></div>
+    </div>
+    <div class="cj-end" data-cj="end" aria-hidden="true"></div>
   </section>
 
   <!-- MARQUEE: two rows, counter-scrolling -->
@@ -521,8 +604,15 @@
   </div>
 </footer>
 
+<div class="cj-rail" aria-hidden="true">
+  <ol>
+    <li><span>01</span>Content</li><li><span>02</span>Website</li><li><span>03</span>Leads</li><li><span>04</span>Ads</li><li><span>05</span>Admin</li><li class="cj-rail-ai"><span>AI</span>Connected</li>
+  </ol>
+</div>
+<div class="stage3d" id="stage3d" aria-hidden="true"></div>
+
 <script src="assets/js/main.js"></script>
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" } }</script>
-<script type="module" src="assets/js/hero3d.js"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<script type="module" src="assets/js/journey3d.js"></script>
 </body>
 </html>
