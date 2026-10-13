@@ -148,6 +148,110 @@ const renderScrollEffects = () => {
 };
 requestAnimationFrame(renderScrollEffects);
 
+// AI automation demo: scattered tools with "you" as the glue, versus one
+// orchestrated system with AI at the core. Auto-plays until the visitor clicks.
+const autoDemo = document.getElementById('autoDemo');
+const autoMap = document.getElementById('autoMap');
+if (autoDemo && autoMap) {
+  const NS = 'http://www.w3.org/2000/svg';
+  const make = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const CX = 200, CY = 150;
+  const tools = [
+    { label: 'Socials', before: [182, 50], after: [200, 45] },
+    { label: 'WhatsApp', before: [304, 38], after: [306, 76] },
+    { label: 'Email', before: [352, 132], after: [350, 150] },
+    { label: 'Ads', before: [320, 252], after: [306, 224] },
+    { label: 'Website', before: [190, 268], after: [200, 255] },
+    { label: 'Sheets', before: [62, 236], after: [94, 224] },
+    { label: 'Calendar', before: [44, 140], after: [50, 150] },
+    { label: 'CRM', before: [74, 48], after: [94, 76] },
+  ];
+  const broken = [[7, 0], [1, 2], [5, 4]];
+
+  make('ellipse', { class: 'map-ring', cx: CX, cy: CY, rx: 150, ry: 105 }, autoMap);
+  const spokes = make('g', {}, autoMap);
+  const flows = make('g', {}, autoMap);
+  tools.forEach((t, i) => {
+    const line = { x1: CX, y1: CY, x2: t.after[0], y2: t.after[1], pathLength: 1 };
+    make('line', { ...line, class: 'map-spoke', style: `transition-delay:${0.45 + i * 0.06}s` }, spokes);
+    make('line', { ...line, class: 'map-flow', style: `animation-delay:${-i * 0.23}s` }, flows);
+  });
+  const brokenG = make('g', {}, autoMap);
+  broken.forEach(([a, b]) => {
+    const [x1, y1] = tools[a].before;
+    const [x2, y2] = tools[b].before;
+    make('line', { class: 'map-broken', x1, y1, x2, y2 }, brokenG);
+    const mark = make('text', { class: 'map-break', x: (x1 + x2) / 2, y: (y1 + y2) / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central' }, brokenG);
+    mark.textContent = '×';
+  });
+
+  const core = make('g', { class: 'map-core' }, autoMap);
+  make('circle', { class: 'map-core-glow', cx: CX, cy: CY, r: 30 }, core);
+  make('circle', { class: 'map-core-you', cx: CX, cy: CY, r: 30 }, core);
+  make('circle', { class: 'map-core-ai', cx: CX, cy: CY, r: 30 }, core);
+  make('text', { class: 't-you', x: CX, y: CY }, core).textContent = 'You';
+  make('text', { class: 't-ai', x: CX, y: CY + 1 }, core).textContent = 'AI';
+
+  const nodeEls = tools.map((t, i) => {
+    const g = make('g', { class: 'map-node', style: `transition-delay:${i * 0.045}s` }, autoMap);
+    const inner = make('g', { class: 'map-node-inner', style: `animation-delay:${-i * 0.37}s` }, g);
+    const w = Math.round(t.label.length * 6.4 + 24);
+    make('rect', { x: -w / 2, y: -12, width: w, height: 24, rx: 12 }, inner);
+    make('text', { x: 0, y: 0.5, 'text-anchor': 'middle', 'dominant-baseline': 'central' }, inner).textContent = t.label;
+    return g;
+  });
+
+  const tabs = autoDemo.querySelectorAll('[data-set]');
+  const setState = (state) => {
+    autoDemo.dataset.state = state;
+    tabs.forEach(b => b.setAttribute('aria-selected', String(b.dataset.set === state)));
+    nodeEls.forEach((g, i) => {
+      const [x, y] = tools[i][state];
+      g.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  };
+  setState('before');
+
+  let userTook = false;
+  let cycleTimer = null;
+  const scheduleNext = () => {
+    cycleTimer = setTimeout(() => {
+      if (userTook) return;
+      setState(autoDemo.dataset.state === 'after' ? 'before' : 'after');
+      scheduleNext();
+    }, autoDemo.dataset.state === 'after' ? 5600 : 2600);
+  };
+  tabs.forEach(b => b.addEventListener('click', () => {
+    userTook = true;
+    clearTimeout(cycleTimer);
+    setState(b.dataset.set);
+  }));
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      if (!userTook && !cycleTimer) scheduleNext();
+    } else {
+      clearTimeout(cycleTimer);
+      cycleTimer = null;
+    }
+  }, { threshold: 0.35 }).observe(autoDemo);
+}
+
+// Service cards: a red spotlight that follows the cursor
+if (hasFinePointer) {
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+}
+
 // Portfolio gallery — prev/next buttons + drag-to-scroll + tap-to-reveal duotone
 const portfolioTrack = document.getElementById('portfolioTrack');
 if (portfolioTrack) {
@@ -193,9 +297,10 @@ form.addEventListener('submit', (e) => {
   const name = form.name.value.trim();
   const email = form.email.value.trim();
   const brand = form.brand.value.trim();
+  const interest = form.interest.value;
   const message = form.message.value.trim();
-  const subject = encodeURIComponent(`New enquiry from ${name}${brand ? ' (' + brand + ')' : ''}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nBrand: ${brand}\n\n${message}`);
+  const subject = encodeURIComponent(`New enquiry from ${name}${brand ? ' (' + brand + ')' : ''}: ${interest}`);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nBrand: ${brand}\nInterested in: ${interest}\n\n${message}`);
   window.location.href = `mailto:info@digitalduo.ae?subject=${subject}&body=${body}`;
   note.textContent = "Opening your email client…";
 });
