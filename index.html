@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigitalDuo. AI Digital Marketing Agency</title>
+<meta name="description" content="DigitalDuo is an AI digital marketing agency. We audit your business, bring in the right AI tools, automate and orchestrate them, create AI content and UGC, and build 3D interactive websites.">
+
+<link rel="icon" type="image/svg+xml" href="assets/img/logo-mark.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true">
+  <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
+</div>
+
+<div class="noise" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
+      <span>DIGITAL<strong>DUO</strong><i>.</i></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#automation">AI Automation</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#why">Why Us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="#contact" class="btn btn-primary nav-cta">Book an AI Audit</a>
+
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="heroSplit" data-cj="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <video class="hero-bg-video" autoplay muted loop playsinline poster="https://d8j0ntlcm91z4.cloudfront.net/user_3GJip8tsyqdEOuIC56y1Sqaj2ZT/hf_20260902_190508_f5c285d8-64d3-4d86-8233-3572a945b41d.png">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJip8tsyqdEOuIC56y1Sqaj2ZT/hf_20260902_190725_0be7fef5-2a77-4bec-81c9-8592ed5218c7.mp4" type="video/mp4">
+      </video>
+      <div class="hero-bg-overlay"></div>
+      <div class="dot-field"></div>
+      <div class="glow-orb" id="glowOrb"></div>
+    </div>
+
+    <div class="wrap hero-inner">
+      <p class="eyebrow reveal">AI Digital Marketing Agency</p>
+      <h1 class="hero-title" id="heroTitle">
+        <span class="line"><span class="mask">Put <em>AI</em> to work</span></span>
+        <span class="line"><span class="mask">in your business.</span></span>
+        <span class="line"><span class="mask">We <span class="text-red">partner</span> in its growth.</span></span>
+      </h1>
+      <p class="hero-sub reveal">We look inside your business, show you which AI tools belong where, build the automations and the content, and train your team to run it.</p>
+      <div class="hero-actions reveal">
+        <a href="#contact" class="btn btn-primary">Book a Free AI Audit</a>
+        <a href="#journey" class="btn btn-ghost">See what AI can do <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+
+    <div class="hero-3d-hint" aria-hidden="true">
+      <span class="live-dot"></span>
+      <span class="hint-main">Live 3D, built in-house</span>
+      <span class="hint-action hint-action--fine">Move your cursor · click to pulse</span>
+      <span class="hint-action hint-action--touch">Tap to pulse</span>
+    </div>
+    <div class="hero-duo" id="heroDuo" aria-hidden="true">
+      <div class="hero-duo-inner">
+        <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER JOURNEY: scroll through a business before and after AI (3D in assets/js/journey3d.js) -->
+  <section class="cj" id="journey" aria-label="A business before and after AI">
+    <div class="cj-step cj-step--intro" data-cj="intro">
+      <div class="wrap"><div class="cj-card">
+        <p class="eyebrow">The journey</p>
+        <h2 class="cj-title">Meet your business.<br><span class="text-red">Before AI.</span></h2>
+        <p>Great product, real customers, and five quiet leaks holding it back. Keep scrolling and follow along.</p>
+        <span class="cj-scroll" aria-hidden="true">Scroll <i></i></span>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s0" data-rail="0">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">01</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Content</p>
+        <h3 class="cj-title">Posting when you remember.</h3>
+        <p>Content goes out whenever someone finds a spare hour. The feed goes quiet, reach drops, and customers start to wonder if you're still open.</p>
+        <ul class="cj-costs"><li>23 days since the last post</li><li>Reach down 64%</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s1" data-rail="1">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">02</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Website</p>
+        <h3 class="cj-title">A website that leaks visitors.</h3>
+        <p>It loads slowly, looks dated on a phone and gives visitors no clear next step. They arrive, hesitate, and leave for a competitor.</p>
+        <ul class="cj-costs"><li>8.4 seconds to load</li><li>78% bounce rate</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s2" data-rail="2">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">03</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Leads</p>
+        <h3 class="cj-title">Leads waiting while you sleep.</h3>
+        <p>WhatsApps and DMs land at 11pm and get answered at 11am. By then the customer has bought somewhere else.</p>
+        <ul class="cj-costs"><li>47 unread messages</li><li>14 hour average reply</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s3" data-rail="3">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">04</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Ads</p>
+        <h3 class="cj-title">Ad spend with a hole in it.</h3>
+        <p>Campaigns run on guesswork. Budget pours in at the top and most of it leaks out before anyone buys.</p>
+        <ul class="cj-costs"><li>AED 12,400 spent</li><li>3 sales</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step" data-cj="s4" data-rail="4">
+      <div class="wrap"><div class="cj-card">
+        <div class="cj-meta"><span class="cj-num">05</span><span class="cj-tag">Without AI</span></div>
+        <p class="eyebrow">Admin</p>
+        <h3 class="cj-title">Ten tools that don't talk.</h3>
+        <p>CRM, spreadsheets, calendar, invoices: none of them connected. Your team copies and pastes the week away.</p>
+        <ul class="cj-costs"><li>31 hours a week on admin</li><li>Customer data in 10 places</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step cj-step--ai" data-cj="ai" data-rail="5">
+      <div class="wrap"><div class="cj-card cj-card--ai">
+        <div class="cj-meta"><span class="cj-tag cj-tag--ai">With AI</span></div>
+        <p class="eyebrow">Then we bring in AI</p>
+        <h3 class="cj-title">AI connects everything.</h3>
+        <p>We audit the business, bring in the right AI tools and orchestrate them into one system. Content ships on schedule, the site converts, every lead gets an instant reply, ads optimise themselves and admin runs in the background.</p>
+        <ul class="cj-wins"><li>Posting daily, on autopilot</li><li>Site loads in 0.8 s</li><li>Every lead answered in 3 s</li><li>ROAS 4.6x</li><li>Admin down to 4 hrs a week</li></ul>
+      </div></div>
+    </div>
+
+    <div class="cj-step cj-step--growth" data-cj="growth">
+      <div class="wrap"><div class="cj-card cj-card--growth">
+        <h2 class="cj-title">Same business.<br><span class="text-red">A whole different level.</span></h2>
+        <p>That's what we build. Let's start by finding the leaks in yours.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Book a free AI audit</a>
+          <a href="#automation" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="cj-note">An illustrative business. Your audit maps your real numbers.</p>
+      </div></div>
+    </div>
+    <div class="cj-end" data-cj="end" aria-hidden="true"></div>
+  </section>
+
+  <!-- MARQUEE: two rows, counter-scrolling -->
+  <div class="marquee marquee--duo">
+    <div class="marquee-track marquee-track--a">
+      <span>YOUR PARTNER IN GROWTH</span><span class="dot-sep">••</span>
+      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+      <span>AI CONTENT &amp; UGC</span><span class="dot-sep">••</span>
+      <span>3D INTERACTIVE WEBSITES</span><span class="dot-sep">••</span>
+      <span>YOUR PARTNER IN GROWTH</span><span class="dot-sep">••</span>
+      <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+      <span>AI CONTENT &amp; UGC</span><span class="dot-sep">••</span>
+      <span>3D INTERACTIVE WEBSITES</span><span class="dot-sep">••</span>
+    </div>
+    <div class="marquee-track marquee-track--b">
+      <span>AI INFLUENCER CONTENT</span><span class="dot-sep">••</span>
+      <span>EMAIL MARKETING</span><span class="dot-sep">••</span>
+      <span>SOCIAL MEDIA MANAGEMENT</span><span class="dot-sep">••</span>
+      <span>STRATEGY FIRST, CONTENT SECOND</span><span class="dot-sep">••</span>
+      <span>AI INFLUENCER CONTENT</span><span class="dot-sep">••</span>
+      <span>EMAIL MARKETING</span><span class="dot-sep">••</span>
+      <span>SOCIAL MEDIA MANAGEMENT</span><span class="dot-sep">••</span>
+      <span>STRATEGY FIRST, CONTENT SECOND</span><span class="dot-sep">••</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="stats wrap">
+    <div class="stat reveal">
+      <span class="stat-num" data-count="4">0</span>
+      <p>Steps from first audit to a team that runs the system on its own</p>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num" data-count="24">0</span><span class="stat-plus">/7</span>
+      <p>Automations keep working after your team has logged off</p>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num" data-count="100">0</span><span class="stat-plus">%</span>
+      <p>In-house: strategy, setup, content and training under one roof</p>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-num" data-count="1">0</span>
+      <p>Partner for AI, content, ads, email and web. Zero handoffs between vendors</p>
+    </div>
+  </section>
+
+  <!-- FLAGSHIP: AI AUTOMATION & ORCHESTRATION -->
+  <section id="automation" class="automation">
+    <div class="wrap">
+      <p class="eyebrow reveal">Flagship service · AI Automation &amp; Orchestration</p>
+      <h2 class="section-title reveal"><span class="ink-scroll"><span class="ink-layer ink-dim">Your business,<br>running on AI.</span><span class="ink-layer ink-bright" aria-hidden="true">Your business,<br>running on AI.</span></span></h2>
+
+      <div class="auto-grid">
+        <div class="auto-copy">
+          <p class="auto-lead reveal">We look inside your business, show you exactly which AI tools belong where, and build the system that takes you from your current numbers to a whole different level.</p>
+          <p class="auto-lead-sub reveal">We do the full setup for you. And if you'd rather own it, we train your team, or one person on it, to run the system and take it forward.</p>
+
+          <ol class="auto-steps">
+            <li class="auto-step reveal">
+              <span class="auto-num">01</span>
+              <div>
+                <h3>Audit</h3>
+                <p>We map your workflows, tools, team and numbers to find where time and money are leaking.</p>
+              </div>
+            </li>
+            <li class="auto-step reveal">
+              <span class="auto-num">02</span>
+              <div>
+                <h3>Blueprint</h3>
+                <p>We show you which AI tools to bring in, what each one replaces, and what it means for your numbers.</p>
+              </div>
+            </li>
+            <li class="auto-step reveal">
+              <span class="auto-num">03</span>
+              <div>
+                <h3>Build &amp; orchestrate</h3>
+                <p>We set up the automations and connect your tools so they work as one system, not ten open tabs.</p>
+              </div>
+            </li>
+            <li class="auto-step reveal">
+              <span class="auto-num">04</span>
+              <div>
+                <h3>Train &amp; hand over</h3>
+                <p>We teach your team to run it, or train one person to own it and take it forward. Your call.</p>
+              </div>
+            </li>
+          </ol>
+
+          <a href="#contact" class="btn btn-primary reveal">Book your free AI audit</a>
+        </div>
+
+        <div class="auto-demo reveal" id="autoDemo" data-state="before">
+          <div class="auto-demo-head">
+            <span class="auto-demo-title">Your business</span>
+            <div class="auto-toggle" role="tablist" aria-label="Compare your business today and with AI">
+              <span class="auto-toggle-pill" aria-hidden="true"></span>
+              <button type="button" role="tab" aria-selected="true" data-set="before">Today</button>
+              <button type="button" role="tab" aria-selected="false" data-set="after">With AI</button>
+            </div>
+          </div>
+          <svg class="auto-map" id="autoMap" viewBox="0 0 400 300" aria-hidden="true"></svg>
+          <div class="auto-chart" aria-hidden="true">
+            <svg viewBox="0 0 400 110">
+              <defs>
+                <linearGradient id="autoArea" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#e33226" stop-opacity=".35"/>
+                  <stop offset="1" stop-color="#e33226" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="chart-area" d="M0,96 C80,94 150,90 200,76 S320,34 400,10 L400,110 L0,110 Z"/>
+              <path class="chart-before" pathLength="1" d="M0,96 C80,95 160,93 240,91 S340,88 400,86"/>
+              <path class="chart-after" pathLength="1" d="M0,96 C80,94 150,90 200,76 S320,34 400,10"/>
+            </svg>
+            <span class="chart-label chart-label--now">Your numbers today</span>
+            <span class="chart-label chart-label--up">A whole different level</span>
+          </div>
+          <p class="auto-caption" aria-live="polite">
+            <span class="cap-before">Today you're the glue between scattered tools, and hours disappear every week.</span>
+            <span class="cap-after">With AI, one orchestrated system connects everything and works around the clock.</span>
+          </p>
+          <p class="auto-note">Illustrative. Your audit maps your real numbers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services">
+    <div class="wrap">
+      <p class="eyebrow reveal">Services</p>
+      <h2 class="section-title reveal"><span class="ink-scroll"><span class="ink-layer ink-dim">Everything else,<br>powered by AI.</span><span class="ink-layer ink-bright" aria-hidden="true">Everything else,<br>powered by AI.</span></span></h2>
+
+      <div class="services-tape" aria-hidden="true">
+        <div class="services-tape-track">
+          <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+          <span>AI CONTENT &amp; UGC</span><span class="dot-sep">••</span>
+          <span>AI INFLUENCER CONTENT</span><span class="dot-sep">••</span>
+          <span>3D INTERACTIVE WEBSITES</span><span class="dot-sep">••</span>
+          <span>SOCIAL MEDIA MANAGEMENT</span><span class="dot-sep">••</span>
+          <span>EMAIL MARKETING</span><span class="dot-sep">••</span>
+          <span>AI SEARCH &amp; SEO</span><span class="dot-sep">••</span>
+          <span>PAID MEDIA</span><span class="dot-sep">••</span>
+          <span>BRANDING</span><span class="dot-sep">••</span>
+          <span>VIDEO PRODUCTION</span><span class="dot-sep">••</span>
+          <span>AI AUTOMATION &amp; ORCHESTRATION</span><span class="dot-sep">••</span>
+          <span>AI CONTENT &amp; UGC</span><span class="dot-sep">••</span>
+          <span>AI INFLUENCER CONTENT</span><span class="dot-sep">••</span>
+          <span>3D INTERACTIVE WEBSITES</span><span class="dot-sep">••</span>
+          <span>SOCIAL MEDIA MANAGEMENT</span><span class="dot-sep">••</span>
+          <span>EMAIL MARKETING</span><span class="dot-sep">••</span>
+          <span>AI SEARCH &amp; SEO</span><span class="dot-sep">••</span>
+          <span>PAID MEDIA</span><span class="dot-sep">••</span>
+          <span>BRANDING</span><span class="dot-sep">••</span>
+          <span>VIDEO PRODUCTION</span><span class="dot-sep">••</span>
+        </div>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-card ai reveal">
+          <span class="service-tag">Signature</span>
+          <span class="service-code" aria-hidden="true">UGC</span>
+          <h3>AI Content &amp; UGC</h3>
+          <p>Professionally made AI content: UGC-style ads, product visuals and short-form video, produced faster and at a volume traditional shoots can't match. Directed by people, scaled by AI.</p>
+        </article>
+        <article class="service-card ai reveal">
+          <span class="service-tag">Live demo</span>
+          <span class="service-code" aria-hidden="true">3D</span>
+          <h3>3D &amp; Interactive Websites</h3>
+          <p>From fast, conversion-focused sites to fully immersive 3D experiences built to stop the scroll. The one you're on right now is ours.</p>
+          <a href="#top" class="service-link">Play with the hero <span aria-hidden="true">↑</span></a>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">INF</span>
+          <h3>AI Influencer Content</h3>
+          <p>Custom AI influencers and creator-style content built around your brand, plus real creator partnerships when the brief calls for a human face.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">CC</span>
+          <h3>Content Creation</h3>
+          <p>Strategy-led content for every platform, with AI speeding up research, scripting and production so your calendar never runs dry.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">SM</span>
+          <h3>Social Media Management</h3>
+          <p>Planning, posting, community and reporting, with AI tracking trends, drafting replies and surfacing what's working.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">EM</span>
+          <h3>Email Marketing</h3>
+          <p>AI-personalized campaigns and automated flows that send the right message to the right person at the right moment.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">SEO</span>
+          <h3>AI Search &amp; SEO</h3>
+          <p>SEO built for Google and for AI answer engines like ChatGPT, so your brand shows up wherever people search now.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">PM</span>
+          <h3>Performance &amp; Paid Media</h3>
+          <p>AI-assisted targeting, creative testing and budget optimization across Meta, Google, TikTok and LinkedIn, measured against revenue.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">BR</span>
+          <h3>Branding &amp; Identity</h3>
+          <p>Names, logos and visual systems explored at AI speed and finished by designers around a real strategic idea.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-code" aria-hidden="true">VP</span>
+          <h3>Video Production</h3>
+          <p>Ads, reels and brand films that blend real shoots with AI-generated scenes, edits and versions for every platform.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION PULL-QUOTE: scroll-inked -->
+  <section class="quote-block" id="quoteBlock">
+    <div class="wrap">
+      <p class="quote-text">
+        <span class="ink-scroll" id="inkText"><span class="ink-layer ink-dim">Strategy first.<br>Content second.</span><span class="ink-layer ink-bright" aria-hidden="true">Strategy first.<br>Content second.</span></span><br>
+        <span class="text-red quote-always">Always.</span>
+      </p>
+      <p class="quote-sub reveal">Every automation and every piece of content starts with who it's for and what we want them to do, before anyone opens a tool.</p>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK / CONCEPT PORTFOLIO -->
+  <section id="work" class="portfolio">
+    <div class="wrap">
+      <p class="eyebrow reveal">Selected work</p>
+      <h2 class="section-title reveal"><span class="ink-scroll"><span class="ink-layer ink-dim">Ten brands.<br>Ten industries.</span><span class="ink-layer ink-bright" aria-hidden="true">Ten brands.<br>Ten industries.</span></span></h2>
+      <p class="portfolio-note reveal">The identities below are self-initiated concept work, built to demonstrate strategic range across sectors, not client engagements. Every mark starts from a real tension in its category; every site and content sample shown is a mockup built to demonstrate the idea in use.</p>
+      <p class="portfolio-hint reveal"><span class="service-dots" aria-hidden="true"><i></i><i></i></span> Every mark ships in duotone, hover (or tap) to bring it into full color</p>
+
+      <div class="portfolio-scroll-wrap">
+      <button class="portfolio-nav portfolio-nav--prev" id="portPrev" aria-label="Previous">‹</button>
+      <button class="portfolio-nav portfolio-nav--next" id="portNext" aria-label="Next">›</button>
+      <div class="portfolio-grid" id="portfolioTrack">
+        <article class="portfolio-card reveal" style="--accent:#c9a227;--bg:#0a0a0a;">
+          <span class="portfolio-index">01</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/vanta.png" alt="Vanta Capital logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Investment Advisory</span>
+            <p class="portfolio-line">"Discretion, by design." Private wealth advisory for a limited number of families.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#c1573d;--bg:#eae1d2;">
+          <span class="portfolio-index">02</span>
+          <div class="portfolio-art light"><img src="assets/img/portfolio/marra.png" alt="Marra logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Specialty Coffee</span>
+            <p class="portfolio-line">"Good coffee, plainly." Roasted in Al Quoz, no tasting notes required.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#3b82f6;--bg:#0a0d12;">
+          <span class="portfolio-index">03</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/signal.png" alt="Signal logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">B2B Cybersecurity</span>
+            <p class="portfolio-line">Plain-English threat detection. Zero threats missed, ever.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#d4ff3d;--bg:#0a0a0a;">
+          <span class="portfolio-index">04</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/loop.png" alt="Loop logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Fashion Resale</span>
+            <p class="portfolio-line">Buy · Sell · Repeat. A resale marketplace built for repeat behaviour.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#7c9070;--bg:#e9ece4;">
+          <span class="portfolio-index">05</span>
+          <div class="portfolio-art light"><img src="assets/img/portfolio/kin.png" alt="Kin logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Family Law</span>
+            <p class="portfolio-line">"You are allowed to ask the same question twice." Support, not litigation.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#7fbf4d;--bg:#153826;">
+          <span class="portfolio-index">06</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/plot.png" alt="Plot logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Urban Farming</span>
+            <p class="portfolio-line">"Grow something." A weekly box for confident beginners.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#9db4d1;--bg:#0b1b2e;">
+          <span class="portfolio-index">07</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/halcyon.png" alt="Halcyon logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Sleep &amp; Recovery Clinic</span>
+            <p class="portfolio-line">Clinical sleep care: diagnosis and treatment for real sleep disorders.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#c9a06b;--bg:#1c1512;">
+          <span class="portfolio-index">08</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/forge-field.png" alt="Forge & Field logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Heritage Leather Goods</span>
+            <p class="portfolio-line">Full-grain, hand-stitched. 8 stitches per inch, repaired free, for life.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#f2793a;--bg:#0e1b2e;">
+          <span class="portfolio-index">09</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/orbit.png" alt="Orbit logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Youth Football Academy</span>
+            <p class="portfolio-line">Programmes for ages 6–16. Pass completion up 12% this month.</p>
+          </div>
+        </article>
+
+        <article class="portfolio-card reveal" style="--accent:#c1603c;--bg:#1b1310;">
+          <span class="portfolio-index">10</span>
+          <div class="portfolio-art"><img src="assets/img/portfolio/hearth.png" alt="Hearth logo" loading="lazy"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-industry">Modular Cookware</span>
+            <p class="portfolio-line">"Pans that nest. Kitchens that don't." Three pans, one slot in the cupboard.</p>
+          </div>
+        </article>
+      </div>
+      </div>
+      <p class="portfolio-scroll-cue reveal">Drag or scroll to browse all ten →</p>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why" class="why">
+    <div class="wrap why-inner">
+      <p class="eyebrow reveal">Why DigitalDuo</p>
+      <h2 class="section-title reveal"><span class="ink-scroll"><span class="ink-layer ink-dim">Four reasons clients stay.</span><span class="ink-layer ink-bright" aria-hidden="true">Four reasons clients stay.</span></span></h2>
+      <div class="why-grid">
+        <div class="why-item reveal">
+          <span class="service-dots" aria-hidden="true"><i></i><i></i></span>
+          <h3>AI-first, not AI-washed</h3>
+          <p>We run our own business on the tools we recommend, so you get what actually works, not what's trending this week.</p>
+        </div>
+        <div class="why-item reveal">
+          <span class="service-dots" aria-hidden="true"><i></i><i></i></span>
+          <h3>We build it, then hand it over</h3>
+          <p>Setup, documentation and training included. Your team, or one person on it, leaves able to run the system.</p>
+        </div>
+        <div class="why-item reveal">
+          <span class="service-dots" aria-hidden="true"><i></i><i></i></span>
+          <h3>One partner, every lever</h3>
+          <p>Automation, content, ads, email and web under one roof, with no handoffs between vendors.</p>
+        </div>
+        <div class="why-item reveal">
+          <span class="service-dots" aria-hidden="true"><i></i><i></i></span>
+          <h3>Measured on your numbers</h3>
+          <p>We start from where your numbers are today and judge the work by how far they move.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap contact-inner">
+      <div class="contact-copy">
+        <p class="eyebrow reveal">Let's talk</p>
+        <h2 class="section-title reveal"><span class="ink-scroll"><span class="ink-layer ink-dim">Let's find where AI fits in your business.</span><span class="ink-layer ink-bright" aria-hidden="true">Let's find where AI fits in your business.</span></span></h2>
+        <p class="reveal">Tell us about your business and we'll come back with a free, no-pressure AI audit call.</p>
+
+        <ul class="contact-details reveal">
+          <li><span class="service-dots" aria-hidden="true"><i></i><i></i></span> <a href="mailto:info@digitalduo.ae">info@digitalduo.ae</a></li>
+          <li><span class="service-dots" aria-hidden="true"><i></i><i></i></span> <a href="tel:+971588471317">+971 58 847 1317</a></li>
+          <li><span class="service-dots" aria-hidden="true"><i></i><i></i></span> IFZA Business Park, Dubai Silicon Oasis, Dubai, UAE</li>
+        </ul>
+
+        <div class="social-row reveal">
+          <a href="https://www.instagram.com/digitalduo.ae/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@digitalduo.ae" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://www.facebook.com/profile.php?id=61561041607728" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://www.linkedin.com/company/digital-duo-ae/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="brand">Brand / Company</label>
+          <input type="text" id="brand" name="brand">
+        </div>
+        <div class="field">
+          <label for="interest">What are you interested in?</label>
+          <select id="interest" name="interest">
+            <option>AI automation &amp; orchestration</option>
+            <option>AI content &amp; UGC</option>
+            <option>AI influencer content</option>
+            <option>3D / interactive website</option>
+            <option>Social media management</option>
+            <option>Email marketing</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">What are you looking to grow?</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+        <p class="form-note" id="formNote"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <a href="#top" class="brand">
+      <svg class="brand-mark" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="100"/><circle class="eye" cx="66" cy="102" r="20"/><circle class="eye" cx="134" cy="102" r="20"/></svg>
+      <span>DIGITAL<strong>DUO</strong><i>.</i></span>
+    </a>
+    <p class="footer-tag">Your Partner in Growth</p>
+    <p class="footer-copy">&copy; <span id="year"></span> DigitalDuo. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="cj-rail" aria-hidden="true">
+  <ol>
+    <li><span>01</span>Content</li><li><span>02</span>Website</li><li><span>03</span>Leads</li><li><span>04</span>Ads</li><li><span>05</span>Admin</li><li class="cj-rail-ai"><span>AI</span>Connected</li>
+  </ol>
+</div>
+<div class="stage3d" id="stage3d" aria-hidden="true"></div>
+
+<script src="assets/js/main.js"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<script type="module" src="assets/js/journey3d.js"></script>
+</body>
+</html>
