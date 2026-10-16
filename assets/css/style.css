@@ -213,7 +213,9 @@ h1,h2{text-wrap:balance;}
 
 /* Live WebGL stage (assets/js/journey3d.js): fixed behind the hero and the
    customer journey. The SVG mark above stays as the fallback until it renders. */
-.stage3d{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;}
+.stage3d{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;
+  /* a warm charcoal room with a soft brand glow, so the journey never sits on flat black */
+  background:radial-gradient(110% 85% at 62% 38%, #33201c 0%, #1b1110 42%, #0c0807 78%, #070505 100%);}
 .stage3d canvas{display:block;width:100%;height:100%;}
 .hero.has-3d .hero-duo{display:none;}
 .hero.has-3d .hero-bg-video{opacity:.35;}

@@ -195,141 +195,143 @@ function brandMark(x, cx, cy, r, bg, fg) {
   txt(x, 'YB', cx, cy + r * 0.36, r, fg, 800, 'center');
 }
 
+// Screens are drawn as real light-mode app layouts so they read clearly against the dark stage.
+const UI = { bg: '#ffffff', ink: '#16120f', sub: '#6d6560', line: '#ebe5e0', chip: '#f4f0ec', ok: '#1f8a4c' };
+
+// A small photo-like tile: a soft gradient "shot" with a simple product silhouette.
+function photoTile(x, X, Y, W, H, k) {
+  const looks = [['#f7d6cf', '#e33226'], ['#efe7dc', '#b98a5a'], ['#dfe9ef', '#3c6e8f'], ['#f3efe7', '#2b2b2b'], ['#ffe3c4', '#e0782a'], ['#e7efe2', '#4c7a3f']];
+  const [a, b] = looks[k % looks.length];
+  const g = x.createLinearGradient(X, Y, X + W, Y + H); g.addColorStop(0, a); g.addColorStop(1, b);
+  x.fillStyle = g; x.fillRect(X, Y, W, H);
+  x.fillStyle = 'rgba(255,255,255,.85)';
+  if (k % 3 === 0) { rr(x, X + W * 0.36, Y + H * 0.24, W * 0.28, H * 0.56, 10); x.fill(); x.fillStyle = b; x.fillRect(X + W * 0.36, Y + H * 0.42, W * 0.28, H * 0.14); }
+  else if (k % 3 === 1) { x.beginPath(); x.arc(X + W / 2, Y + H * 0.52, W * 0.2, 0, Math.PI * 2); x.fill(); x.fillStyle = 'rgba(0,0,0,.12)'; x.beginPath(); x.ellipse(X + W / 2, Y + H * 0.8, W * 0.22, H * 0.04, 0, 0, Math.PI * 2); x.fill(); }
+  else { x.font = `800 ${Math.round(W * 0.16)}px ${FONT}`; x.textAlign = 'center'; x.fillText(['SALE', 'NEW', '-30%'][k % 3 === 2 ? Math.floor(k / 3) % 3 : 0], X + W / 2, Y + H * 0.58); }
+}
+
 function contentScreen(fixed) {
   const [c, x] = makeCanvas(520, 1010);
-  x.fillStyle = '#0d0c0c'; x.fillRect(0, 0, 520, 1010);
-  txt(x, '9:41', 30, 46, 22, MUTED, 600);
-  if (fixed) { x.strokeStyle = RED; x.lineWidth = 5; x.beginPath(); x.arc(64, 120, 42, 0, Math.PI * 2); x.stroke(); }
-  brandMark(x, 64, 120, 34, fixed ? RED : '#3a2422', fixed ? WHITE : 'rgba(255,255,255,.45)');
-  txt(x, 'yourbrand', 118, 112, 30, WHITE, 800);
-  txt(x, fixed ? 'Posted today · 14 scheduled' : 'Last post: 23 days ago', 118, 146, 21, fixed ? 'rgba(255,255,255,.8)' : RED, 700);
-  txt(x, fixed ? '186 posts   ·   12.4k followers' : '42 posts   ·   1,203 followers', 30, 200, 20, MUTED, 600);
-  const S = 150, G = 10, X0 = 25, Y0 = 222;
-  const arts = [
-    (X, Y) => { const g = x.createLinearGradient(X, Y, X + S, Y + S); g.addColorStop(0, RED); g.addColorStop(1, '#5a0d08'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'NEW', X + 16, Y + 50, 34, WHITE, 800); },
-    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); x.fillStyle = RED; x.beginPath(); x.arc(X + S / 2, Y + S / 2 - 6, 38, 0, Math.PI * 2); x.fill(); },
-    (X, Y) => { x.fillStyle = '#1c1a1a'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, '50%', X + S / 2, Y + S / 2 + 4, 40, RED, 800, 'center'); txt(x, 'OFF', X + S / 2, Y + S / 2 + 34, 20, WHITE, 800, 'center'); },
-    (X, Y) => { x.fillStyle = RED; rr(x, X, Y, S, S, 10); x.fill(); x.strokeStyle = 'rgba(255,255,255,.5)'; x.lineWidth = 6; for (let i = 1; i < 5; i++) { x.beginPath(); x.moveTo(X + i * 30, Y + 10); x.lineTo(X + i * 30 - 30, Y + S - 10); x.stroke(); } },
-    (X, Y) => { const g = x.createRadialGradient(X + S / 2, Y + S / 2, 10, X + S / 2, Y + S / 2, 90); g.addColorStop(0, '#ffd2cc'); g.addColorStop(1, '#2a1110'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill(); },
-    (X, Y) => { x.fillStyle = '#f4f1ea'; rr(x, X, Y, S, S, 10); x.fill(); txt(x, 'REEL', X + 16, Y + 40, 24, '#111', 800); x.fillStyle = RED; x.beginPath(); x.moveTo(X + 60, Y + 66); x.lineTo(X + 100, Y + 91); x.lineTo(X + 60, Y + 116); x.fill(); },
-  ];
+  x.fillStyle = UI.bg; x.fillRect(0, 0, 520, 1010);
+  txt(x, '9:41', 30, 44, 22, UI.ink, 700);
+  txt(x, 'yourbrand', 260, 92, 26, UI.ink, 800, 'center');
+  // profile header
+  if (fixed) { const g = x.createLinearGradient(20, 120, 120, 220); g.addColorStop(0, '#f7b733'); g.addColorStop(1, RED); x.strokeStyle = g; x.lineWidth = 6; x.beginPath(); x.arc(76, 170, 50, 0, Math.PI * 2); x.stroke(); }
+  brandMark(x, 76, 170, 42, fixed ? RED : '#d9d2cd', WHITE);
+  [['posts', fixed ? '186' : '42'], ['followers', fixed ? '12.4k' : '1,203'], ['following', '310']].forEach(([l, n], i) => {
+    txt(x, n, 220 + i * 105, 168, 28, UI.ink, 800, 'center'); txt(x, l, 220 + i * 105, 196, 17, UI.sub, 600, 'center');
+  });
+  txt(x, 'Your Brand · Dubai', 26, 262, 20, UI.ink, 800);
+  txt(x, fixed ? 'Posted today · 14 scheduled this week' : 'Last post: 23 days ago', 26, 292, 18, fixed ? UI.sub : RED, 700);
+  // tabs
+  x.fillStyle = UI.line; x.fillRect(0, 318, 520, 2); x.fillStyle = UI.ink; x.fillRect(0, 318, 173, 2);
+  // grid
+  const S = 172, G = 2, Y0 = 322;
   for (let i = 0; i < 9; i++) {
-    const X = X0 + (i % 3) * (S + G), Y = Y0 + Math.floor(i / 3) * (S + G);
-    if (fixed) { arts[(i * 5) % arts.length](X, Y); brandMark(x, X + S - 22, Y + S - 22, 14, 'rgba(0,0,0,.55)', WHITE); }
-    else if (i < 2) {
-      // the last two posts: on brand, but weeks old
-      x.globalAlpha = 0.45;
-      const g = x.createLinearGradient(X, Y, X + S, Y + S); g.addColorStop(0, '#5a1f1b'); g.addColorStop(1, '#1a1212'); x.fillStyle = g; rr(x, X, Y, S, S, 10); x.fill();
-      brandMark(x, X + S / 2, Y + 58, 26, RED, WHITE);
-      txt(x, i ? 'SUMMER' : 'NEW IN', X + S / 2, Y + 118, 20, WHITE, 800, 'center');
-      x.globalAlpha = 1;
-    } else { x.setLineDash([8, 8]); x.strokeStyle = FAINT; x.lineWidth = 2; rr(x, X + 2, Y + 2, S - 4, S - 4, 10); x.stroke(); x.setLineDash([]); txt(x, '+', X + S / 2, Y + S / 2 + 12, 34, FAINT, 400, 'center'); }
+    const X = (i % 3) * (S + G), Y = Y0 + Math.floor(i / 3) * (S + G);
+    if (fixed) photoTile(x, X, Y, S, S, i * 4 + 1);
+    else if (i < 2) { x.globalAlpha = 0.55; photoTile(x, X, Y, S, S, i + 3); x.globalAlpha = 1; txt(x, i ? '23d' : '30d', X + S - 10, Y + 28, 18, UI.ink, 800, 'right'); }
+    else { x.fillStyle = UI.chip; x.fillRect(X, Y, S, S); txt(x, '+', X + S / 2, Y + S / 2 + 14, 40, '#cfc7c1', 400, 'center'); }
   }
-  // notification: ignored reminder, or the AI scheduler
-  const ny = 716;
-  x.fillStyle = fixed ? '#1d1b1b' : 'rgba(227,50,38,.16)'; rr(x, 25, ny, 470, 82, 18); x.fill();
-  x.fillStyle = fixed ? WHITE : RED; x.beginPath(); x.arc(64, ny + 41, 18, 0, Math.PI * 2); x.fill();
-  txt(x, fixed ? '✓' : '!', 64, ny + 49, 22, fixed ? '#111' : WHITE, 800, 'center');
-  txt(x, fixed ? 'Next post: today, 6:00 PM' : 'Reminder: post something this week', 96, ny + 36, 20, WHITE, 800);
-  txt(x, fixed ? 'Auto-scheduled by AI' : 'Snoozed 4 times', 96, ny + 64, 17, fixed ? MUTED : 'rgba(227,50,38,.85)', 700);
-  const by = 812;
-  x.fillStyle = '#171515'; rr(x, 25, by, 470, 176, 22); x.fill();
-  txt(x, 'This month', 50, by + 42, 20, MUTED, 700);
-  txt(x, fixed ? '♥ 2.4k' : '♥ 12', 50, by + 104, 50, WHITE, 800);
-  txt(x, fixed ? 'Reach ↑ 3.1x' : 'Reach ↓ 64%', 50, by + 152, 24, fixed ? WHITE : RED, 800);
-  x.strokeStyle = fixed ? RED : 'rgba(255,255,255,.3)'; x.lineWidth = 6; x.beginPath();
-  for (let i = 0; i <= 10; i++) { const X = 300 + i * 17, Y = by + (fixed ? 150 - i * i * 1.1 : 60 + i * 8 + (i % 2) * 10); i ? x.lineTo(X, Y) : x.moveTo(X, Y); }
-  x.stroke();
+  // notification
+  const ny = 860;
+  x.fillStyle = fixed ? '#eef7f1' : '#fdecea'; rr(x, 20, ny, 480, 64, 16); x.fill();
+  x.fillStyle = fixed ? UI.ok : RED; x.beginPath(); x.arc(52, ny + 32, 15, 0, Math.PI * 2); x.fill();
+  txt(x, fixed ? '✓' : '!', 52, ny + 39, 18, WHITE, 800, 'center');
+  txt(x, fixed ? 'Next post: today, 6:00 PM · by AI' : 'Reminder: post something this week', 80, ny + 39, 18, UI.ink, 700);
+  // reach
+  txt(x, fixed ? '♥ 2.4k this month' : '♥ 12 this month', 26, 970, 24, UI.ink, 800);
+  txt(x, fixed ? 'Reach ↑ 3.1x' : 'Reach ↓ 64%', 494, 970, 22, fixed ? UI.ok : RED, 800, 'right');
   return c;
 }
 
+const browserChrome = (x, live) => {
+  x.fillStyle = '#efebe7'; x.fillRect(0, 0, 1024, 56);
+  ['#ff5f57', '#febc2e', '#28c840'].forEach((col, i) => { x.fillStyle = live ? col : '#cdc6c0'; x.beginPath(); x.arc(30 + i * 26, 28, 8, 0, Math.PI * 2); x.fill(); });
+  x.fillStyle = UI.bg; rr(x, 120, 14, 520, 28, 14); x.fill();
+  txt(x, 'yourbrand.com', 140, 34, 17, UI.sub, 600);
+};
+
 // Redrawn while the station is broken: pieces arrive late, the layout jumps and frames stutter.
 function drawWebPain(x, lt, t) {
-  x.fillStyle = '#0d0c0c'; x.fillRect(0, 0, 1024, 646);
-  x.fillStyle = '#1b1919'; x.fillRect(0, 0, 1024, 56);
-  for (let i = 0; i < 3; i++) { x.fillStyle = '#3a3636'; x.beginPath(); x.arc(30 + i * 26, 28, 8, 0, Math.PI * 2); x.fill(); }
-  x.fillStyle = '#0d0c0c'; rr(x, 120, 14, 520, 28, 14); x.fill();
-  txt(x, 'yourbrand.com', 140, 34, 17, MUTED, 600);
+  x.fillStyle = UI.bg; x.fillRect(0, 0, 1024, 646);
+  browserChrome(x, false);
   x.strokeStyle = RED; x.lineWidth = 3; x.lineCap = 'round'; x.beginPath(); x.arc(668, 28, 9, t * 5, t * 5 + 4.4); x.stroke();
   const prog = Math.min(1, lt / 8.4);
   x.fillStyle = RED; x.fillRect(0, 54, 1024 * (prog < 1 ? Math.floor(prog * 6) / 6 * 0.9 + prog * 0.08 : 1), 4);
-  if (lt > 1.4) { x.fillStyle = '#242121'; x.fillRect(60, 84, 904, 44); txt(x, 'YOURBRAND', 80, 114, 20, 'rgba(255,255,255,.4)', 800); }
-  if (lt > 2.4) { const y = lt < 4.6 ? 160 : 232; x.fillStyle = '#2a2727'; x.fillRect(60, y, 460, 40); x.fillRect(60, y + 54, 360, 40); }
-  x.strokeStyle = '#3a3636'; x.lineWidth = 3; x.strokeRect(580, 160, 380, 260);
+  if (lt > 1.4) { txt(x, 'YOURBRAND', 60, 108, 22, '#bdb5af', 800); ['Menu', 'About', 'Contact'].forEach((s, i) => txt(x, s, 700 + i * 100, 108, 18, '#cfc8c2', 700)); }
+  if (lt > 2.4) { const y = lt < 4.6 ? 170 : 236; x.fillStyle = '#e6e0db'; rr(x, 60, y, 470, 46, 8); x.fill(); rr(x, 60, y + 60, 360, 46, 8); x.fill(); }
+  x.strokeStyle = '#d8d1cb'; x.lineWidth = 3; x.strokeRect(600, 150, 360, 270);
   if (lt > 3) {
     const bands = Math.min(8, Math.floor((lt - 3) * 1.5));
-    for (let b = 0; b < bands; b++) { x.fillStyle = `rgba(227,50,38,${0.12 + b * 0.05})`; x.fillRect(582, 162 + b * 32, 376, 32); }
-  } else { x.beginPath(); x.moveTo(580, 160); x.lineTo(960, 420); x.moveTo(960, 160); x.lineTo(580, 420); x.stroke(); }
-  if (lt > 5.4) { x.fillStyle = '#211f1f'; x.fillRect(60, 360, 420, 18); x.fillRect(60, 392, 360, 18); }
-  if (lt > 8.4) { x.fillStyle = '#3a2220'; rr(x, 60, 432, 200, 54, 27); x.fill(); txt(x, 'Book now', 160, 467, 20, 'rgba(255,255,255,.5)', 800, 'center'); }
+    for (let b = 0; b < bands; b++) { x.fillStyle = `rgba(227,50,38,${0.08 + b * 0.04})`; x.fillRect(602, 152 + b * 33, 356, 33); }
+  } else { x.beginPath(); x.moveTo(600, 150); x.lineTo(960, 420); x.moveTo(960, 150); x.lineTo(600, 420); x.stroke(); }
+  if (lt > 5.4) { x.fillStyle = '#eee9e4'; rr(x, 60, 372, 420, 16, 8); x.fill(); rr(x, 60, 402, 340, 16, 8); x.fill(); }
+  if (lt > 8.4) { x.fillStyle = '#e7d3cf'; rr(x, 60, 440, 200, 54, 27); x.fill(); txt(x, 'Book now', 160, 475, 20, '#9a8f89', 800, 'center'); }
   if (lt < 8.4) {
-    x.fillStyle = 'rgba(13,12,12,.78)'; rr(x, 342, 456, 340, 112, 20); x.fill();
+    x.fillStyle = 'rgba(22,18,15,.86)'; rr(x, 342, 456, 340, 112, 20); x.fill();
     x.strokeStyle = RED; x.lineWidth = 7; x.beginPath(); x.arc(398, 512, 22, t * 4, t * 4 + 4.4); x.stroke();
     txt(x, `Loading… ${lt.toFixed(1)} s`, 438, 522, 28, WHITE, 800);
   }
-  txt(x, lt < 8.4 ? 'Visitors leaving: 78%' : 'Loaded in 8.4 s · 78% already left', 512, 620, 22, RED, 800, 'center');
+  txt(x, lt < 8.4 ? 'Visitors leaving: 78%' : 'Loaded in 8.4 s · 78% already left', 512, 622, 22, RED, 800, 'center');
 }
 
 function webScreen(fixed) {
   const [c, x] = makeCanvas(1024, 646);
-  x.fillStyle = fixed ? '#0f0d0d' : '#0d0c0c'; x.fillRect(0, 0, 1024, 646);
-  x.fillStyle = '#1b1919'; x.fillRect(0, 0, 1024, 56);
-  ['#ff5f57', '#febc2e', '#28c840'].forEach((col, i) => { x.fillStyle = fixed ? col : '#3a3636'; x.beginPath(); x.arc(30 + i * 26, 28, 8, 0, Math.PI * 2); x.fill(); });
-  x.fillStyle = '#0d0c0c'; rr(x, 120, 14, 520, 28, 14); x.fill();
-  txt(x, 'yourbrand.com', 140, 34, 17, MUTED, 600);
-  if (!fixed) {
-    x.fillStyle = '#242121'; x.fillRect(60, 96, 700, 70);
-    x.fillStyle = '#1d1b1b'; x.fillRect(110, 190, 820, 210);
-    x.strokeStyle = '#3a3636'; x.lineWidth = 4; x.strokeRect(150, 222, 150, 130); x.beginPath(); x.moveTo(150, 222); x.lineTo(300, 352); x.moveTo(300, 222); x.lineTo(150, 352); x.stroke();
-    x.fillStyle = '#242121'; x.fillRect(340, 230, 380, 26); x.fillRect(340, 274, 300, 20); x.fillRect(360, 312, 340, 20);
-    x.strokeStyle = RED; x.lineWidth = 8; x.lineCap = 'round'; x.beginPath(); x.arc(512, 476, 30, 0.2, 4.6); x.stroke();
-    txt(x, 'Loading… 8.4 s', 512, 548, 30, WHITE, 800, 'center');
-    txt(x, 'Bounce rate 78%', 512, 600, 24, RED, 800, 'center');
-  } else {
-    txt(x, 'YOURBRAND', 60, 108, 22, WHITE, 800);
-    ['Menu', 'About', 'Contact'].forEach((s, i) => txt(x, s, 700 + i * 100, 108, 18, MUTED, 700));
-    txt(x, 'Book your table', 60, 210, 64, WHITE, 800);
-    txt(x, 'in 30 seconds.', 60, 280, 64, RED, 800);
-    txt(x, 'Fresh menu every week. Order or book in one tap.', 60, 330, 22, MUTED, 600);
-    x.fillStyle = RED; rr(x, 60, 360, 210, 60, 30); x.fill(); txt(x, 'Book now', 165, 399, 24, WHITE, 800, 'center');
-    const g = x.createLinearGradient(640, 150, 960, 430); g.addColorStop(0, RED); g.addColorStop(1, '#3d0905');
-    x.fillStyle = g; rr(x, 640, 150, 320, 280, 24); x.fill();
-    x.fillStyle = 'rgba(255,255,255,.9)'; x.beginPath(); x.arc(800, 290, 70, 0, Math.PI * 2); x.fill();
-    for (let i = 0; i < 3; i++) { x.fillStyle = '#1b1919'; rr(x, 60 + i * 305, 460, 290, 90, 16); x.fill(); txt(x, ['★ 4.9 rating', 'Same-day delivery', 'Book in 1 tap'][i], 85 + i * 305, 515, 22, WHITE, 700); }
-    txt(x, 'Loaded in 0.8 s · Conversions ↑ 2.7x', 512, 610, 24, WHITE, 800, 'center');
-  }
+  x.fillStyle = UI.bg; x.fillRect(0, 0, 1024, 646);
+  browserChrome(x, fixed);
+  if (!fixed) { drawWebPain(x, 2.9, 0); return c; }
+  txt(x, 'YOURBRAND', 60, 108, 22, UI.ink, 800);
+  ['Menu', 'About', 'Contact'].forEach((s, i) => txt(x, s, 640 + i * 96, 108, 18, UI.sub, 700));
+  x.fillStyle = RED; rr(x, 912, 84, 72, 36, 18); x.fill(); txt(x, 'Book', 948, 108, 16, WHITE, 800, 'center');
+  txt(x, 'Book your table', 60, 210, 58, UI.ink, 800);
+  txt(x, 'in 30 seconds.', 60, 274, 58, RED, 800);
+  txt(x, 'Fresh menu every week. Order or book in one tap.', 60, 322, 21, UI.sub, 600);
+  x.fillStyle = RED; rr(x, 60, 350, 200, 58, 29); x.fill(); txt(x, 'Book now', 160, 387, 22, WHITE, 800, 'center');
+  x.strokeStyle = UI.ink; x.lineWidth = 2; rr(x, 276, 350, 170, 58, 29); x.stroke(); txt(x, 'See menu', 361, 387, 20, UI.ink, 700, 'center');
+  photoTile(x, 600, 140, 364, 290, 4);
+  x.fillStyle = WHITE; rr(x, 620, 380, 190, 34, 17); x.fill(); txt(x, '★ 4.9 · 2,300 reviews', 715, 403, 15, UI.ink, 700, 'center');
+  ['Same-day delivery', 'Fresh every morning', 'Book in one tap'].forEach((s, i) => {
+    x.fillStyle = UI.chip; rr(x, 60 + i * 305, 462, 290, 84, 16); x.fill();
+    x.fillStyle = RED; x.beginPath(); x.arc(96 + i * 305, 504, 14, 0, Math.PI * 2); x.fill();
+    txt(x, s, 124 + i * 305, 511, 20, UI.ink, 700);
+  });
+  txt(x, 'Loaded in 0.8 s · Conversions ↑ 2.7x', 512, 612, 22, UI.ok, 800, 'center');
   return c;
 }
 
 function leadsScreen(fixed) {
   const [c, x] = makeCanvas(640, 794);
-  x.fillStyle = '#0d0c0c'; x.fillRect(0, 0, 640, 794);
-  txt(x, 'Inbox', 34, 70, 40, WHITE, 800);
-  x.fillStyle = fixed ? '#2a2727' : RED; rr(x, 150, 38, fixed ? 54 : 66, 40, 20); x.fill();
-  txt(x, fixed ? '0' : '47', fixed ? 177 : 183, 66, 24, WHITE, 800, 'center');
+  x.fillStyle = UI.bg; x.fillRect(0, 0, 640, 794);
+  x.fillStyle = '#f6f2ef'; x.fillRect(0, 0, 640, 96);
+  txt(x, 'Messages', 34, 66, 36, UI.ink, 800);
+  x.fillStyle = fixed ? UI.ok : RED; rr(x, 214, 38, fixed ? 54 : 66, 38, 19); x.fill();
+  txt(x, fixed ? '0' : '47', fixed ? 241 : 247, 64, 22, WHITE, 800, 'center');
   const rows = [['Sara', 'Hi, is this still available?', '11:42 PM'], ['James', 'How much is it?', '12:05 AM'], ['Fatima', 'Can I book for Friday?', '1:17 AM'], ['Emily', 'Do you deliver to Marina?', '2:30 AM'], ['Omar', 'Hello? Anyone there?', '9:58 AM']];
+  const av = ['#e8a598', '#9cb7c9', '#c9a27a', '#a9c79c', '#c79cc0'];
   rows.forEach(([n, m, tm], i) => {
     const Y = 110 + i * 118;
-    x.fillStyle = '#171515'; rr(x, 24, Y, 592, 104, 18); x.fill();
-    x.fillStyle = ['#7a2a24', '#3b3535', '#5c1d18', '#2f2b2b', '#4a1712'][i]; x.beginPath(); x.arc(70, Y + 52, 26, 0, Math.PI * 2); x.fill();
-    txt(x, n, 112, Y + 40, 24, WHITE, 800);
-    txt(x, tm, 590, Y + 40, 18, MUTED, 600, 'right');
-    txt(x, m, 112, Y + 74, 21, fixed ? MUTED : 'rgba(255,255,255,.85)', 600);
-    if (fixed) txt(x, '✓✓ Replied in 3 s', 590, Y + 88, 18, WHITE, 800, 'right');
-    else { x.fillStyle = RED; x.beginPath(); x.arc(584, Y + 74, 9, 0, Math.PI * 2); x.fill(); }
+    x.fillStyle = UI.line; x.fillRect(110, Y + 112, 506, 2);
+    x.fillStyle = av[i]; x.beginPath(); x.arc(64, Y + 54, 32, 0, Math.PI * 2); x.fill();
+    txt(x, n[0], 64, Y + 64, 28, WHITE, 800, 'center');
+    txt(x, n, 112, Y + 42, 24, UI.ink, 800);
+    txt(x, tm, 610, Y + 42, 17, fixed ? UI.sub : RED, 600, 'right');
+    txt(x, m, 112, Y + 76, 20, UI.sub, 600);
+    if (fixed) txt(x, '✓✓ Replied in 3 s', 610, Y + 92, 17, UI.ok, 800, 'right');
+    else { x.fillStyle = RED; x.beginPath(); x.arc(598, Y + 72, 11, 0, Math.PI * 2); x.fill(); }
   });
-  x.fillStyle = fixed ? '#1d1b1b' : 'rgba(227,50,38,.14)'; rr(x, 24, 714, 592, 60, 16); x.fill();
-  txt(x, fixed ? 'Average reply: 3 s · 24/7' : 'Average reply: 14 hrs', 320, 754, 24, fixed ? WHITE : RED, 800, 'center');
+  x.fillStyle = fixed ? '#eef7f1' : '#fdecea'; rr(x, 24, 714, 592, 60, 16); x.fill();
+  txt(x, fixed ? 'Average reply: 3 s · 24/7' : 'Average reply: 14 hrs', 320, 754, 24, fixed ? UI.ok : RED, 800, 'center');
   return c;
 }
 
 function pillLabel(text, sub, fixed, w = 900) {
   const [c, x] = makeCanvas(w, 220);
-  x.fillStyle = fixed ? 'rgba(20,18,18,.88)' : 'rgba(40,10,8,.82)';
+  x.fillStyle = 'rgba(255,255,255,.96)';
   rr(x, 6, 6, w - 12, 208, 104); x.fill();
-  x.strokeStyle = fixed ? 'rgba(255,255,255,.25)' : 'rgba(227,50,38,.7)'; x.lineWidth = 4; rr(x, 6, 6, w - 12, 208, 104); x.stroke();
-  txt(x, text, w / 2, 112, 62, fixed ? WHITE : RED, 800, 'center');
-  txt(x, sub, w / 2, 168, 30, MUTED, 700, 'center');
+  x.strokeStyle = fixed ? 'rgba(31,138,76,.5)' : 'rgba(227,50,38,.75)'; x.lineWidth = 5; rr(x, 6, 6, w - 12, 208, 104); x.stroke();
+  txt(x, text, w / 2, 112, 62, fixed ? UI.ok : RED, 800, 'center');
+  txt(x, sub, w / 2, 168, 30, UI.sub, 700, 'center');
   return c;
 }
 
@@ -346,10 +348,10 @@ function drawDirham(x, cx, cy, s, color) {
 
 function appIcon(name, glyph) {
   const [c, x] = makeCanvas(256, 256);
-  x.fillStyle = '#1b1919'; rr(x, 0, 0, 256, 256, 46); x.fill();
+  x.fillStyle = UI.bg; rr(x, 0, 0, 256, 256, 46); x.fill();
   if (glyph === 'AED') drawDirham(x, 128, 112, 90, RED);
   else txt(x, glyph, 128, 140, 84, RED, 800, 'center');
-  txt(x, name, 128, 214, 32, WHITE, 800, 'center');
+  txt(x, name, 128, 214, 32, UI.ink, 800, 'center');
   return c;
 }
 
@@ -687,18 +689,20 @@ function init() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1.5 : 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
+  renderer.toneMappingExposure = 1.4;
   renderer.setClearColor(0x000000, 0);
   mount.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x010000, 42, 120);
+  scene.fog = new THREE.Fog(0x010000, 60, 170);
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 200);
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(buildStudio(), 0.02).texture;
   pmrem.dispose();
-  const key = new THREE.DirectionalLight(0xffffff, 1.6);
+  // soft fill so every station reads clearly, not just the parts the key light catches
+  scene.add(new THREE.HemisphereLight(0xfff4f0, 0x3a1612, 1.3));
+  const key = new THREE.DirectionalLight(0xffffff, 2.6);
   key.position.set(4, 5, 6);
   scene.add(key);
   const redLight = new THREE.PointLight(0xe33226, 45, 16, 2);
@@ -957,7 +961,7 @@ function init() {
     dir.subVectors(p.cam, p.target).multiplyScalar(fit);
     camera.position.copy(p.target).add(dir);
     camera.lookAt(p.target);
-    scene.fog.near = 42 * fit; scene.fog.far = 120 * fit;
+    scene.fog.near = 60 * fit; scene.fog.far = 170 * fit;
     camera.setViewOffset(W, H, -p.shiftX * W, p.shiftY * H, W, H);
 
     if (!hovering && performance.now() - lastMove > 2500) ptrTarget.set(Math.sin(t * 0.33) * 0.35, Math.cos(t * 0.26) * 0.22);
